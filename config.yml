@@ -1,6 +1,6 @@
 baseURL: https://blog-xi-amber.vercel.app/
 languageCode: zh-cn
-title: Virgo
+title: OliverArrow
 
 # 启用主题
 theme: virgo
@@ -11,7 +11,7 @@ paginate: 12
 enableGitInfo: true
 
 params:
-  author: Arrow
+  author: OliverArrow
   slogan: 不努力，不放弃
   # 页面语言，默认中文
   en: false
