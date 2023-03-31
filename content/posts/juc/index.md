@@ -1,5 +1,5 @@
 ---
-title: "并发编程"
+title: "初学并发编程"
 date: 2023-03-31T22:16:17+08:00
 draft: false
 categories: [Java,笔记]
