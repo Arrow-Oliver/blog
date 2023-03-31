@@ -2,7 +2,7 @@
 title: "初学Spring Security"
 date: 2023-03-31T22:34:17+08:00
 draft: false
-categories: [Java,笔记,Spring]
+categories: [Java,笔记,Spring,框架]
 tags: [SpringSecurity]
 card: false
 weight: 0

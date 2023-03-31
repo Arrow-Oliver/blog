@@ -2,7 +2,7 @@
 title: "初学Spring"
 date: 2023-03-31T22:38:30+08:00
 draft: false
-categories: [Java,笔记,Spring]
+categories: [Java,笔记,Spring,框架]
 tags: [Spring]
 card: false
 weight: 0

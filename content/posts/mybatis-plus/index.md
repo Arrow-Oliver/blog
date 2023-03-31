@@ -2,7 +2,7 @@
 title: "初学Mybatis Plus"
 date: 2023-03-31T22:46:38+08:00
 draft: false
-categories: [Java,笔记,Mybatis]
+categories: [Java,笔记,Mybatis,框架]
 tags: [MybatisPlus]
 card: false
 weight: 0

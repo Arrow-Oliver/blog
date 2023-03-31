@@ -2,7 +2,7 @@
 title: "初学Spring Mvc"
 date: 2023-03-31T22:41:17+08:00
 draft: false
-categories: [Java,笔记,Spring]
+categories: [Java,笔记,Spring,框架]
 tags: [SpringMvc]
 card: false
 weight: 0
