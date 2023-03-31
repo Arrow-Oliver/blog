@@ -95,20 +95,20 @@ params:
     # words = "多少事，从来急；<br>天地转，光阴迫。<br>一万年太久，只争朝夕。<br>-- 教员"
     words: “照顾好自己的身体和情绪，<br>这场人生，<br>你就赢了一大半，<br>其余的其余，<br>人生自有安排。”
   contact:
-    icp: 豫ICP备2022002918号-1         # 备案号，如果你不想显示，设置为 '' 空即可
-    icplink: //beian.miit.gov.cn      # 备案链接
-    weibo: "6867589681"               # e.g. https://weibo.com/u/6867589681
-    wechat: imgs/bg/wechat-public.jpg # 微信二维码地址
-    zhihu: loveminimal                # e.g. https://www.zhihu.com/people/loveminimal
-    jianshu: eebcc2974936             # e.g. https://www.jianshu.com/u/eebcc2974936
-    email: loveminimal@outlook.com
-    github: loveminimal               # e.g. https://github.com/loveminimal
-    bilibili: "11608450"              # e.g. https://space.bilibili.com/11608450
-    twitter: loveminimal163           # e.g. https://twitter.com/loveminimal163
-    facebook: loveminimal             # e.g. https://facebook.com/loveminimal
-    instagram: loveminimal163         # e.g. https://www.instagram.com/loveminimal163
-    youtube: UCkWIBwe3rZTDAmBs0GJngkA # e.g. https://www.youtube.com/channel/UCkWIBwe3rZTDAmBs0GJngkA
-    telegram: https://web.telegram.org/z/
+    icp: ''         # 备案号，如果你不想显示，设置为 '' 空即可
+    icplink: ''      # 备案链接
+    #weibo: "6867589681"               # e.g. https://weibo.com/u/6867589681
+    wechat: imgs/bg/wx.jpg            # 微信二维码地址
+    #zhihu: loveminimal                # e.g. https://www.zhihu.com/people/loveminimal
+    #jianshu: eebcc2974936             # e.g. https://www.jianshu.com/u/eebcc2974936
+    email: li1619958177@gmail.com
+    github: Arrow-Oliver               # e.g. https://github.com/loveminimal
+    bilibili: "316586409"              # e.g. https://space.bilibili.com/11608450
+    #twitter: loveminimal163           # e.g. https://twitter.com/loveminimal163
+    #facebook: loveminimal             # e.g. https://facebook.com/loveminimal
+    instagram: geor9e13         # e.g. https://www.instagram.com/loveminimal163
+    youtube: UCoyz4_ykJCYZBFyxhtbgpog # e.g. https://www.youtube.com/channel/UCkWIBwe3rZTDAmBs0GJngkA
+    telegram: https://t.me/Geor9e13
     color: "#696969"                   # 图标颜色，默认为浅灰色
     slogan: "Find me via : )"         # 联系标语，不想显示，可以置空
   utterances:
