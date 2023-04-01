@@ -1,6 +1,11 @@
 ---
 title: "About"
+date: 2023-03-31T23:03:12+08:00
 draft: false
+categories: [Java,笔记,设计模式]
+tags: [DesignPattern]
+card: false
+weight: 0
 ---
 
 # **🏀感谢**
