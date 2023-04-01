@@ -1,17 +1,20 @@
 ---
 title: "About"
 draft: false
+categories: [关于]
+tags: []
+card: false
+weight: 0
 ---
 
-<div class="nav">
 
 # **🏀感谢**
 
 
 
 <figure style="text-align: center;">
-    <figcaption style="color: #d69; font-size: 14px;">关注杰哥喵，谢谢喵~</figcaption>
-    <img style="border-radius: 10px; box-shadow: 3px 3px 5px #ccc; margin: 8px auto;" alt="picture 2" src="index.assets/c00df158314e2ddc0cede4a1e03823a.png" width="500" />  
+    <figcaption style="color: #d69; font-size: 20px;">关注杰哥喵，谢谢喵~</figcaption>
+    <img style="border-radius: 10px; box-shadow: 3px 3px 5px #ccc; margin: 8px auto;" alt="picture 2" src="/about/index.assets/c00df158314e2ddc0cede4a1e03823a.png" width="500" />  
 </figure>
 
 
