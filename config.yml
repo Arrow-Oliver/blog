@@ -113,7 +113,8 @@ params:
     slogan: "Find me via : )"         # 联系标语，不想显示，可以置空
   utterances:
     active: true                # 是否启用评论插件
-    repo: loveminimal/comment   # 输入你的仓库名称
+    repo: Arrow-Oliver/blog
+    # 输入你的仓库名称
     issueTerm: pathname
     theme: github-light
     crossorigin: anonymous
