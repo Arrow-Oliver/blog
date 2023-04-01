@@ -31,6 +31,7 @@ draft: false
 - [DockerHub](https://registry.hub.docker.com/)
 - [Vercel](https://vercel.com/)
 - [Maven Repo](https://search.maven.org/)
+- [Redis Commands](https://redis.io/commands/)
 
 ## 🍺 *博客 BLOGs*
 - [阮一峰](http://www.ruanyifeng.com/)
@@ -50,8 +51,9 @@ draft: false
 
 <div class="bookmark">
 
-- bookmark item one https://bookmark-item-one.com
-- bookmark item two https://bookmark-item-two.com
-- bookmark item three https://bookmark-item-three.com
+- [SpringBoot + Shiro - CSDN](https://blog.csdn.net/bicheng4769/article/details/86668209?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1-86668209-blog-123810963.pc_relevant_multi_platform_featuressortv2dupreplace&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2~default~CTRLIST~Rate-1-86668209-blog-123810963.pc_relevant_multi_platform_featuressortv2dupreplace&utm_relevant_index=1)
+- [MySQL5.7安装教程 - 博客园](https://www.cnblogs.com/sunfee/p/16511876.html)
+- [MySQL事务的实现原理 - SegmentFault思否](https://segmentfault.com/a/1190000039139809)
+- [十丈_红尘 - 简书](https://www.jianshu.com/u/7b55c0fd018a)
 
 </div>
