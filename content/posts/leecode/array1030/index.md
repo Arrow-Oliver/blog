@@ -2,7 +2,7 @@
 title: "1030.距离顺序排列矩阵单元格"
 date: 2023-04-02T21:39:04+08:00
 draft: false
-categories: [算法]
+categories: [日常一扣]
 tags: [数组篇]
 card: false
 weight: 0
