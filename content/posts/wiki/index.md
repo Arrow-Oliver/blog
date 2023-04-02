@@ -2,7 +2,7 @@
 title: "Wiki"
 date: 2023-04-01T17:17:11+08:00
 draft: false
-categories: [_Misc]
+categories: [关于]
 card: false
 weight: 0
 ---
