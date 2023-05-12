@@ -17,11 +17,9 @@ draft: false
 - [牛客网](https://www.nowcoder.com/)
 - [百度贴吧](https://tieba.baidu.com/index.html)
 - [Instagram](https://www.instagram.com/)
-- [推特](https://twitter.com/)
 ## 🔨 *工具 TOOLs*
 - [有道翻译](https://fanyi.youdao.com/index.html#/)
 - [WallHaven](https://wallhaven.cc/)
-- [3G壁纸](https://www.3gbizhi.com/)
 - [壁纸湖](https://bizihu.com/)
 - [Base64解码](https://www.hitoy.org/tool/file_base64.php)
 
