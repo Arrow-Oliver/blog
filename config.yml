@@ -81,6 +81,12 @@ params:
       en: About
       zh: 关于
       icon: 🐌
+    "66":
+      active: true
+      path: /index.xml
+      en: RSS
+      zh: RSS
+      icon: 🌏
   # 首页图片/文字
   img:
     # 如果你不想显示图片，想显示一段话，只需要
