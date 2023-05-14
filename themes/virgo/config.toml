@@ -3,3 +3,9 @@
         #  extended = true
         #    min = "0.55.0"
         #    max = "0.84.2"
+   [menu]
+         [[menu.main]]
+            identifier = "rss"
+            name = "RSS"
+            url = "/index.xml"
+            weight = 5
