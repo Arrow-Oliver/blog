@@ -14,9 +14,13 @@ weight: 0
 
 ​		本想着找个其他主题模板中copy一个就能完成的事儿，没想到人家的Rss订阅源都是主题模板内置的，这一下我给我整不会了。 我只好在Google中搜索<u>“rss订阅源如何生成”</u>，发现搜出来的大多数都是使用工具来管理Rss源，也就是如何订阅他人的Rss源（Rss.xml）。或者说使用工具（例如RssHub）进行Rss订阅源的生成，但是在我搜索这个工具的时候发现人家是让先自己手动搭建一个网站，我想着这可不行啊，生成一个Rss订阅源这么麻烦吗？跟我想象的不一样啊。后来在我搜索的过程中发现我用的不是Hugo框架嘛，直接搜索<u>“hugo rss订阅源”</u>试一下。
 
+
+
 # 2
 
 ​		没想到一搜直接就有了，发现有好多博主都有安装Rss订阅源的教程，并且Hugo官方文档也有具体的Rss生成教程，顿时感觉到会搜索跟不会搜索的差距。接下来由于Hugo官方文档为英文，理解起来略显麻烦，就跟随[博主的帖子](https://www.wangchucheng.com/zh/posts/hugo-rss-template/)进行了Rss源的生成。
+
+
 
 # 3
 
@@ -109,6 +113,8 @@ Below is a rendering of the page up to the first error.
             url = "/index.xml"
             weight = 5
 ~~~
+
+
 
 # 4
 
