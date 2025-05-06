@@ -8,13 +8,19 @@ card: false
 weight: 0
 ---
 
+# 知识网
+
+![MySQL](index.assets/MySQL-1746545490663-7.png)
+
+
+
 # MySQL的数据目录
 
 ## MySQL8的主要目录结构
 
 ### 数据库文件的存放路径
 
-~~~shell
+```shell
 mysql> show variables like 'datadir';
 +---------------+-----------------+
 | Variable_name | Value |
@@ -22,7 +28,7 @@ mysql> show variables like 'datadir';
 | datadir | /var/lib/mysql/ |
 +---------------+-----------------+
 1 row in set (0.04 sec)
-~~~
+```
 
 ### 相关命令目录
 
@@ -44,7 +50,7 @@ MySQL 系统自带的核心数据库，它存储了MySQL的用户账户和权限
 
 MySQL 系统自带的数据库，这个数据库保存着MySQL服务器 维护的所有其他数据库的信息 ，比如有 哪些表、哪些视图、哪些触发器、哪些列、哪些索引。这些信息并不是真实的用户数据，而是一些 描述性信息，有时候也称之为 元数据 。在系统数据库 information_schema 中提供了一些以 innodb_sys 开头的表，用于表示内部系统表。
 
-~~~shell
+```shell
 mysql> USE information_schema;
 Database changed
 mysql> SHOW TABLES LIKE 'innodb_sys%';
@@ -63,7 +69,7 @@ mysql> SHOW TABLES LIKE 'innodb_sys%';
 | INNODB_SYS_TABLESTATS |
 +--------------------------------------------+
 10 rows in set (0.00 sec)
-~~~
+```
 
 * `performance_schema`
 
@@ -99,11 +105,11 @@ MySQL 系统自带的数据库，这个数据库主要是通过 视图 的形式
 
 2. 表中数据和索引
 
-~~~mysql
+```mysql
 test.frm 存储表结构
 test.MYD 存储数据 (MYData)
 test.MYI 存储索引 (MYIndex)
-~~~
+```
 
 ### 小结
 
@@ -123,9 +129,9 @@ test.MYI 存储索引 (MYIndex)
 
 2、如果表b采用 MyISAM ，data\a中会产生3个文件：
 
-*  MySQL5.7 中： b.frm ：描述表结构文件，字段长度等。 MySQL8.0 中 b.xxx.sdi ：描述表结构文件，字段长度等
-*  b.MYD (MYData)：数据信息文件，存储数据信息(如果采用独立表存储模式)
-*  b.MYI (MYIndex)：存放索引信息文件
+* MySQL5.7 中： b.frm ：描述表结构文件，字段长度等。 MySQL8.0 中 b.xxx.sdi ：描述表结构文件，字段长度等
+* b.MYD (MYData)：数据信息文件，存储数据信息(如果采用独立表存储模式)
+* b.MYI (MYIndex)：存放索引信息文件
 
 # 用户与权限管理
 
@@ -135,9 +141,9 @@ test.MYI 存储索引 (MYIndex)
 
 启动MySQL服务后，可以通过mysql命令来登录MySQL服务器，命令如下：
 
-~~~shell
+```shell
 mysql –h hostname|hostIP –P port –u username –p DatabaseName –e "SQL语句"
-~~~
+```
 
 下面详细介绍命令中的参数：
 
@@ -148,21 +154,23 @@ mysql –h hostname|hostIP –P port –u username –p DatabaseName –e "SQL�
 * -u参数 后面接用户名，username为用户名。 
 
 * -p参数 会提示输入密码。 
+
 * DatabaseName参数 指明登录到哪一个数据库中。如果没有该参数，就会直接登录到MySQL数据库 中，然后可以使用USE命令来选择数据库。
+
 * -e参数 后面可以直接加SQL语句。登录MySQL服务器以后即可执行这个SQL语句，然后退出MySQL 服务器。
 
-~~~shell
+```shell
 #举例
 mysql -uroot -p -hlocalhost -P3306 mysql -e "select host,user from user"
-~~~
+```
 
 ### 创建用户
 
 CREATE USER语句的基本语法形式如下：
 
-~~~mysql
+```mysql
 CREATE USER 用户名 [IDENTIFIED BY '密码'][,用户名 [IDENTIFIED BY '密码']];
-~~~
+```
 
 * 用户名参数表示新建用户的账户，由 用户（User） 和 主机名（Host） 构成；
 
@@ -170,35 +178,35 @@ CREATE USER 用户名 [IDENTIFIED BY '密码'][,用户名 [IDENTIFIED BY '密码
 
 * CREATE USER语句可以同时创建多个用户。
 
-~~~mysql
+```mysql
 #举例
 CREATE USER zhang3 IDENTIFIED BY '123123'; # 默认host是 %
 
 CREATE USER 'kangshifu'@'localhost' IDENTIFIED BY '123456';
-~~~
+```
 
-###  修改用户
+### 修改用户
 
-~~~mysql
+```mysql
 UPDATE mysql.user SET USER='li4' WHERE USER='wang5';
 FLUSH PRIVILEGES;
-~~~
+```
 
 ### 删除用户
 
 使用DROP USER语句来删除用户时，必须用于DROP USER权限。DROP USER语句的基本语法形式如下：
 
-~~~mysql
+```mysql
 DROP USER user[,user]…;
-~~~
+```
 
 举例
 
-~~~mysql
+```mysql
 DROP USER li4 ; # 默认删除host为%的用户
 
 DROP USER 'kangshifu'@'localhost';
-~~~
+```
 
 > mysql.user  表中 host和user为联合主键
 
@@ -208,9 +216,9 @@ DROP USER 'kangshifu'@'localhost';
 
 使用root用户登录MySQL后，可以使用SET语句来修改密码，具体 SQL语句如下：
 
-~~~mysql
+```mysql
 SET PASSWORD='new_password';
-~~~
+```
 
 ### 修改其它用户密码
 
@@ -218,49 +226,49 @@ SET PASSWORD='new_password';
 
 使用root用户登录到MySQL服务器后，可以使用SET语句来修改普 通用户的密码。SET语句的代码如下：
 
-~~~mysql
+```mysql
 SET PASSWORD FOR 'username'@'hostname'='new_password';
-~~~
+```
 
 ## 权限管理
 
 ### 权限列表
 
-​	（1） CREATE和DROP权限 ，可以创建新的数据库和表，或删除（移掉）已有的数据库和表。如果将 MySQL数据库中的DROP权限授予某用户，用户就可以删除MySQL访问权限保存的数据库。 
+​    （1） CREATE和DROP权限 ，可以创建新的数据库和表，或删除（移掉）已有的数据库和表。如果将 MySQL数据库中的DROP权限授予某用户，用户就可以删除MySQL访问权限保存的数据库。 
 
-​	（2） SELECT、INSERT、UPDATE和DELETE权限 允许在一个数据库现有的表上实施操作。 
+​    （2） SELECT、INSERT、UPDATE和DELETE权限 允许在一个数据库现有的表上实施操作。 
 
-​	（3） SELECT权限 只有在它们真正从一个表中检索行时才被用到。 
+​    （3） SELECT权限 只有在它们真正从一个表中检索行时才被用到。 
 
-​	（4） INDEX权限 允许创建或删除索引，INDEX适用于已 有的表。如果具有某个表的CREATE权限，就可以在CREATE TABLE语句中包括索引定义。
+​    （4） INDEX权限 允许创建或删除索引，INDEX适用于已 有的表。如果具有某个表的CREATE权限，就可以在CREATE TABLE语句中包括索引定义。
 
-​	 （5） ALTER权 限 可以使用ALTER TABLE来更改表的结构和重新命名表。
+​     （5） ALTER权 限 可以使用ALTER TABLE来更改表的结构和重新命名表。
 
-​	 （6） CREATE ROUTINE权限 用来创建保存的 程序（函数和程序），ALTER ROUTINE权限用来更改和删除保存的程序， EXECUTE权限 用来执行保存的 程序。
+​     （6） CREATE ROUTINE权限 用来创建保存的 程序（函数和程序），ALTER ROUTINE权限用来更改和删除保存的程序， EXECUTE权限 用来执行保存的 程序。
 
-​	 （7） GRANT权限 允许授权给其他用户，可用于数据库、表和保存的程序。
+​     （7） GRANT权限 允许授权给其他用户，可用于数据库、表和保存的程序。
 
-​	 （8） FILE权限 使用 户可以使用LOAD DATA INFILE和SELECT ... INTO OUTFILE语句读或写服务器上的文件，任何被授予FILE权 限的用户都能读或写MySQL服务器上的任何文件（说明用户可以读任何数据库目录下的文件，因为服务 器可以访问这些文件）。
+​     （8） FILE权限 使用 户可以使用LOAD DATA INFILE和SELECT ... INTO OUTFILE语句读或写服务器上的文件，任何被授予FILE权 限的用户都能读或写MySQL服务器上的任何文件（说明用户可以读任何数据库目录下的文件，因为服务 器可以访问这些文件）。
 
 **授予权限的原则**
 
 权限控制主要是出于安全因素，因此需要遵循以下几个 经验原则 ：
 
- 	1、只授予能 满足需要的最小权限 ，防止用户干坏事。比如用户只是需要查询，那就只给select权限就可 以了，不要给用户赋予update、insert或者delete权限。
- 	
- 	2、创建用户的时候 限制用户的登录主机 ，一般是限制成指定IP或者内网IP段。
- 	
- 	3、为每个用户 设置满足密码复杂度的密码 。 
+     1、只授予能 满足需要的最小权限 ，防止用户干坏事。比如用户只是需要查询，那就只给select权限就可 以了，不要给用户赋予update、insert或者delete权限。
+    
+     2、创建用户的时候 限制用户的登录主机 ，一般是限制成指定IP或者内网IP段。
+    
+     3、为每个用户 设置满足密码复杂度的密码 。 
 
-​	4、 定期清理不需要的用户 ，回收权限或者删除用户。
+​    4、 定期清理不需要的用户 ，回收权限或者删除用户。
 
 ### 授予权限
 
 授权命令：
 
-~~~mysql
+```mysql
 GRANT 权限1,权限2,…权限n ON 数据库名称.表名称 TO 用户名@用户地址 [IDENTIFIED BY ‘密码口令’];
-~~~
+```
 
 * 该权限如果发现没有该用户，则会直接新建一个用户。
 
@@ -268,37 +276,37 @@ GRANT 权限1,权限2,…权限n ON 数据库名称.表名称 TO 用户名@用�
 
 * 给li4用户用本地命令行方式，授予atguigudb这个库下的所有表的插删改查的权限。
 
-~~~mysql
+```mysql
 GRANT SELECT,INSERT,DELETE,UPDATE ON atguigudb.* TO li4@localhost ;
-~~~
+```
 
 * 授予通过网络方式登录的joe用户 ，对所有库所有表的全部权限，密码设为123。注意这里唯独不包 括grant的权限
 
-~~~mysql
+```mysql
 GRANT ALL PRIVILEGES ON *.* TO joe@'%' IDENTIFIED BY '123';
-~~~
+```
 
 ### 查看权限
 
 * 查看当前用户
 
-~~~mysql
+```mysql
 SHOW GRANTS;
 # 或
 SHOW GRANTS FOR CURRENT_USER;
 # 或
 SHOW GRANTS FOR CURRENT_USER();
-~~~
+```
 
 * 查看某用户的全局权限
 
-~~~mysql
+```mysql
 SHOW GRANTS FOR 'user'@'主机地址' ;
-~~~
+```
 
-###  收回权限
+### 收回权限
 
-~~~mysql
+```mysql
 #语法
 REVOKE 权限1,权限2,…权限n ON 数据库名称.表名称 FROM 用户名@用户地址;
 
@@ -307,8 +315,7 @@ REVOKE 权限1,权限2,…权限n ON 数据库名称.表名称 FROM 用户名@�
 REVOKE ALL PRIVILEGES ON *.* FROM joe@'%';
 #收回mysql库下的所有表的插删改查权限
 REVOKE SELECT,INSERT,UPDATE,DELETE ON mysql.* FROM joe@localhost;
-
-~~~
+```
 
 ### 权限表
 
@@ -323,6 +330,7 @@ user表是MySQL中最重要的一个权限表， 记录用户账号和权限信�
 1.范围列（或用户列）
 
 * host ： 表示连接类
+  
   * `%` 表示所有远程通过 TCP方式的连接 
   * `IP 地址` 如 (192.168.1.2、127.0.0.1) 通过制定ip地址进行的TCP方式的连接
   * `机器名` 通过制定网络中的机器名进行的TCP方式的连接 
@@ -330,35 +338,43 @@ user表是MySQL中最重要的一个权限表， 记录用户账号和权限信�
   * ` localhost` 本地方式通过命令行方式的连接 ，比如mysql -u xxx -p xxx 方式的连接。
 
 * user ： 表示用户名，同一用户通过不同方式链接的权限是不一样的。
+
 * password ： 密码
+  
   * 所有密码串通过 password(明文字符串) 生成的密文字符串。MySQL 8.0 在用户管理方面增加了 角色管理，默认的密码加密方式也做了调整，由之前的 SHA1 改为了 SHA2 ，不可逆 。同时 加上 MySQL 5.7 的禁用用户和用户过期的功能，MySQL 在用户管理方面的功能和安全性都较之 前版本大大的增强了。 
   * mysql 5.7 及之后版本的密码保存到 authentication_string 字段中不再使用password 字 段。
-
 2. 权限列
+* Grant_priv字段 
+  
+  * 表示是否拥有GRANT权限 
 
-*  Grant_priv字段 
-   * 表示是否拥有GRANT权限 
-*  Shutdown_priv字段 
-   * 表示是否拥有停止MySQL服务的权限 
-*  Super_priv字段 
-   * 表示是否拥有超级权限 
-*  Execute_priv字段
-   * 表示是否拥有EXECUTE权限。拥有EXECUTE权限，可以执行存储过程和函数。
-*  Select_priv , Insert_priv等 
-   * 为该用户所拥有的权限。
+* Shutdown_priv字段 
+  
+  * 表示是否拥有停止MySQL服务的权限 
 
+* Super_priv字段 
+  
+  * 表示是否拥有超级权限 
+
+* Execute_priv字段
+  
+  * 表示是否拥有EXECUTE权限。拥有EXECUTE权限，可以执行存储过程和函数。
+
+* Select_priv , Insert_priv等 
+  
+  * 为该用户所拥有的权限。
 3. 安全列
-
+   
    安全列只有6个字段，其中两个是ssl相关的（ssl_type、ssl_cipher），用于 加密 ；两个是x509 相关的（x509_issuer、x509_subject），用于 标识用户 ；另外两个Plugin字段用于 验证用户身份 的插件， 该字段不能为空。如果该字段为空，服务器就使用内建授权验证机制验证用户身份。
 
 4. 资源控制列 资源控制列的字段用来 限制用户使用的资源 ，包含4个字段，分别为：
-
+   
    ①max_questions，用户每小时允许执行的查询操作次数；
-
+   
     ②max_updates，用户每小时允许执行的更新 操作次数；
-
+   
     ③max_connections，用户每小时允许执行的连接操作次数；
-
+   
     ④max_user_connections，用户 允许同时建立的连接次数。
 
 ## 角色管理(MySQL8.0)
@@ -369,31 +385,31 @@ user表是MySQL中最重要的一个权限表， 记录用户账号和权限信�
 
 创建角色使用 CREATE ROLE 语句，语法如下：
 
-~~~mysql
+```mysql
 CREATE ROLE 'role_name'[@'host_name'] [,'role_name'[@'host_name']]...
 # 举例
 CREATE ROLE 'manager'@'localhost';
-~~~
+```
 
 ### 给角色赋予权限
 
 创建角色之后，默认这个角色是没有任何权限的，我们需要给角色授权。给角色授权的语法结构是：
 
-~~~mysql
-GRANT privileges ON table_name TO 'role_name'[@'host_name'];	
+```mysql
+GRANT privileges ON table_name TO 'role_name'[@'host_name'];    
 #举例
 GRANT SELECT ON demo.settlement TO 'manager';
 
 GRANT SELECT ON demo.goodsmaster TO 'manager';
 
 GRANT SELECT ON demo.invcount TO 'manager';
-~~~
+```
 
-###  查看角色的权限
+### 查看角色的权限
 
 赋予角色权限之后，我们可以通过 SHOW GRANTS 语句，来查看权限是否创建成功了：
 
-~~~shell
+```shell
 mysql> SHOW GRANTS FOR 'manager';
 +-------------------------------------------------------+
 | Grants for manager@% |
@@ -403,31 +419,31 @@ mysql> SHOW GRANTS FOR 'manager';
 | GRANT SELECT ON `demo`.`invcount` TO `manager`@`%` |
 | GRANT SELECT ON `demo`.`settlement` TO `manager`@`%` |
 +-------------------------------------------------------+
-~~~
+```
 
 ### 回收角色的权限
 
 撤销角色权限的SQL语法如下：
 
-~~~mysql
+```mysql
 REVOKE privileges ON tablename FROM 'rolename';
-~~~
+```
 
 练习1：撤销school_write角色的权限。 
 
 使用如下语句撤销school_write角色的权限。
 
-~~~mysql
+```mysql
 REVOKE INSERT, UPDATE, DELETE ON school.* FROM 'school_write';
-~~~
+```
 
-###  删除角色
+### 删除角色
 
 当我们需要对业务重新整合的时候，可能就需要对之前创建的角色进行清理，删除一些不会再使用的角 色。删除角色的操作很简单，你只要掌握语法结构就行了。
 
-~~~mysql
+```mysql
 DROP ROLE role [,role2]...
-~~~
+```
 
 >  注意， 如果你删除了角色，那么用户也就失去了通过这个角色所获得的所有权限 。
 
@@ -435,65 +451,65 @@ DROP ROLE role [,role2]...
 
 角色创建并授权后，要赋给用户并处于 激活状态 才能发挥作用。给用户添加角色可使用GRANT语句，语 法形式如下：
 
-~~~mysql
+```mysql
 GRANT role [,role2,...] TO user [,user2,...];
-~~~
+```
 
 练习：给kangshifu用户添加角色school_read权限。 
 
 （1）使用GRANT语句给kangshifu添加school_read权 限，SQL语句如下。
 
-~~~mysql
+```mysql
 GRANT 'school_read' TO 'kangshifu'@'localhost';
-~~~
+```
 
 （2）添加完成后使用SHOW语句查看是否添加成功，SQL语句如下。
 
-~~~mysql
+```mysql
 SHOW GRANTS FOR 'kangshifu'@'localhost';
-~~~
+```
 
 （3）使用kangshifu用户登录，然后查询当前角色，如果角色未激活，结果将显示NONE。SQL语句如 下。
 
-~~~mysql
+```mysql
 SELECT CURRENT_ROLE();
-~~~
+```
 
 ![image-20220425114955974](index.assets/image-20220425114955974.png)
 
-###  激活角色
+### 激活角色
 
 使用`set default role` 命令激活角色
 
-~~~mysql
+```mysql
 SET DEFAULT ROLE ALL TO 'kangshifu'@'localhost';
-~~~
+```
 
 举例：使用 SET DEFAULT ROLE 为下面4个用户默认激活所有已拥有的角色如下：
 
-~~~mysql
+```mysql
 SET DEFAULT ROLE ALL TO
 'dev1'@'localhost',
 'read_user1'@'localhost',
 'read_user2'@'localhost',
 'rw_user1'@'localhost';
-~~~
+```
 
 ### 撤销用户的角色
 
 撤销用户角色的SQL语法如下：
 
-~~~mysql
+```mysql
 REVOKE role FROM user;
-~~~
+```
 
 练习：撤销kangshifu用户的school_read角色。
 
 撤销的SQL语句如下
 
-~~~mysql
+```mysql
 REVOKE 'school_read' FROM 'kangshifu'@'localhost';
-~~~
+```
 
 # 逻辑架构
 
@@ -532,9 +548,9 @@ REVOKE 'school_read' FROM 'kangshifu'@'localhost';
 * 这个执行计划表明应该 使用哪些索引 进行查询（全表检索还是使用索引检索），表之间的连 接顺序如何，最后会按照执行计划中的步骤调用存储引擎提供的方法来真正的执行查询，并将 查询结果返回给用户。
 * 它使用“ 选取-投影-连接 ”策略进行查询。例如：
 
-~~~mysql
+```mysql
 SELECT id,name FROM student WHERE gender = '女';
-~~~
+```
 
 这个SELECT查询先根据WHERE语句进行 选取 ，而不是将表全部查询出来以后再进行gender过 滤。 这个SELECT查询先根据id和name进行属性 投影 ，而不是将属性全部取出以后再进行过 滤，将这两个查询条件 连接 起来生成最终查询结果。
 
@@ -569,16 +585,16 @@ MySQL的查询流程：
 1. 查询缓存：Server 如果在查询缓存中发现了这条 SQL 语句，就会直接将结果返回给客户端；如果没 有，就进入到解析器阶段。需要说明的是，因为查询缓存往往效率不高，所以在 MySQL8.0 之后就抛弃 了这个功能。
 
 2. 解析器：在解析器中对 SQL 语句进行语法分析、语义分析。
-
+   
    * 分析器先做“ 词法分析 ”。你输入的是由多个字符串和空格组成的一条 SQL 语句，MySQL 需要识别出里面 的字符串分别是什么，代表什么。 MySQL 从你输入的"select"这个关键字识别出来，这是一个查询语 句。它也要把字符串“T”识别成“表名 T”，把字符串“ID”识别成“列 ID”。
-
+   
    * 接着，要做“ 语法分析 ”。根据词法分析的结果，语法分析器（比如：Bison）会根据语法规则，判断你输 入的这个 SQL 语句是否 满足 MySQL 语法 。
 
 3. 优化器：在优化器中会确定 SQL 语句的执行路径，比如是根据 全表检索 ，还是根据 索引检索 等。 
-
+   
    举例：如下语句是执行两个表的 join：
-
-   ~~~mysql
+   
+   ```mysql
    select * from test1 join test2 using(ID)
    where test1.name='zhangwei' and test2.name='mysql高级课程';
    
@@ -591,8 +607,8 @@ MySQL的查询流程：
    这两种执行方法的逻辑结果是一样的，但是执行的效率会有不同，而优化器的作用就是决定选择使用哪一个方案。优化
    器阶段完成后，这个语句的执行方案就确定下来了，然后进入执行器阶段。
    如果你还有一些疑问，比如优化器是怎么选择索引的，有没有可能选择错等。后面讲到索引我们再谈。
-   ~~~
-
+   ```
+   
    在查询优化器中，可以分为 逻辑查询 优化阶段和 物理查询 优化阶段。
 
 4. 执行器： 截止到现在，还没有真正去读写真实的表，仅仅只是产出了一个执行计划。于是就进入了 执行器阶段 。
@@ -655,19 +671,19 @@ InnoDB 存储引擎是以页为单位来管理存储空间的，我们进行的�
 
 ## 查看存储引擎
 
-~~~mysql
+```mysql
 show engines;
-~~~
+```
 
 ![image-20220425143729429](index.assets/image-20220425143729429.png)
 
 **查看默认的存储引擎：**
 
-~~~mysql
+```mysql
 show variables like '%storage_engine%';
 #或
 SELECT @@default_storage_engine;
-~~~
+```
 
 ![image-20220425143803598](index.assets/image-20220425143803598.png)
 
@@ -677,52 +693,65 @@ SELECT @@default_storage_engine;
 
 我们之前创建表的语句都没有指定表的存储引擎，那就会使用默认的存储引擎 InnoDB 。如果我们想显 式的指定一下表的存储引擎，那可以这么写：
 
-~~~mysql
+```mysql
 CREATE TABLE 表名(
 建表语句;
 ) ENGINE = 存储引擎名称;
-~~~
+```
 
 **修改表的存储引擎**
 
 如果表已经建好了，我们也可以使用下边这个语句来修改表的存储引擎：
 
-~~~mysql
+```mysql
 ALTER TABLE 表名 ENGINE = 存储引擎名称;
-~~~
+```
 
 比如我们修改一下 `engine_demo_table` 表的存储引擎：
 
-~~~mysql
+```mysql
 mysql> ALTER TABLE engine_demo_table ENGINE = InnoDB;
 Query OK, 0 rows affected (0.05 sec)
 Records: 0 Duplicates: 0 Warnings: 0
-~~~
+```
 
 ## 引擎介绍
 
 ### InnoDB 引擎：具备外键支持功能的事务存储引擎
 
 * MySQL从3.23.34a开始就包含InnoDB存储引擎。 大于等于5.5之后，默认采用InnoDB引擎 。
+
 * InnoDB是MySQL的 默认事务型引擎 ，它被设计用来处理大量的短期(short-lived)事务。可以确保事务 的完整提交(Commit)和回滚(Rollback)。 
+
 * 除了增加和查询外，还需要更新、删除操作，那么，应优先选择InnoDB存储引擎。 
+
 * 除非有非常特别的原因需要使用其他的存储引擎，否则应该优先考虑InnoDB引擎。 
+
 * 数据文件结构：
+  
   * 表名.frm 存储表结构（MySQL8.0时，合并在表名.ibd中） 
   * 表名.ibd 存储数据和索引 
+
 * InnoDB是 为处理巨大数据量的最大性能设计 。
+  
   * 在以前的版本中，字典数据以元数据文件、非事务表等来存储。现在这些元数据文件被删除 了。比如： .frm ， .par ， .trn ， .isl ， .db.opt 等都在MySQL8.0中不存在了。
 
 * 对比MyISAM的存储引擎， InnoDB写的处理效率差一些 ，并且会占用更多的磁盘空间以保存数据和 索引。
+
 * MyISAM只缓存索引，不缓存真实数据；InnoDB不仅缓存索引还要缓存真实数据， 对内存要求较 高 ，而且内存大小对性能有决定性的影响。
 
-###  MyISAM 引擎：主要的非事务处理存储引擎
+### MyISAM 引擎：主要的非事务处理存储引擎
 
 * MyISAM提供了大量的特性，包括全文索引、压缩、空间函数(GIS)等，但MyISAM 不支持事务、行级 锁、外键 ，有一个毫无疑问的缺陷就是 崩溃后无法安全恢复 。
+
 * 5.5之前默认的存储引擎 
+
 * 优势是访问的 速度快 ，对事务完整性没有要求或者以SELECT、INSERT为主的应用 
+
 * 针对数据统计有额外的常数存储。故而 count(*) 的查询效率很高
+
 * 数据文件结构：
+  
   * 表名.frm 存储表结构 
   * 表名.MYD 存储数据 (MYData) 
   * 表名.MYI 存储索引 (MYIndex)
@@ -739,9 +768,9 @@ Records: 0 Duplicates: 0 Warnings: 0
 
 先来看一个精确匹配的例子：
 
-~~~mysql
+```mysql
 SELECT [列名列表] FROM 表名 WHERE 列名 = xxx;
-~~~
+```
 
 在没有索引的情况下，不论是根据主键列或者其他列的值进行查找，由于我们并不能快速的定位到记录 所在的页，所以只能 从第一个页 沿着 双向链表 一直往下找，在每一个页中根据我们上面的查找方式去查 找指定的记录。因为要遍历所有的数据页，所以这种方式显然是 超级耗时 的。如果一个表有一亿条记录 呢？此时 索引 应运而生。
 
@@ -795,11 +824,11 @@ SELECT [列名列表] FROM 表名 WHERE 列名 = xxx;
 现在因为存储目录项记录的页不止一个，所以如果我们想根据主键值查找一条用户记录大致需要3个步 骤，以查找主键值为 20 的记录为例：
 
 1. 确定 目录项记录页
-
+   
    我们现在的存储目录项记录的页有两个，即 页30 和 页32 ，又因为页30表示的目录项的主键值的 范围是 [1, 320) ，页32表示的目录项的主键值不小于 320 ，所以主键值为 20 的记录对应的目 录项记录在 页30 中。
 
 2. 通过目录项记录页 确定用户记录真实所在的页 。
-
+   
    在一个存储 目录项记录 的页中通过主键值定位一条目录项记录的方式说过了。
 
 3. 在真实存储用户记录的页中定位到具体的记录。
@@ -834,13 +863,13 @@ SELECT [列名列表] FROM 表名 WHERE 列名 = xxx;
 **聚簇索引**
 
 1. 使用记录主键值的大小进行记录和页的排序，这包括三个方面的含义：
-
-   *  页内 的记录是按照主键的大小顺序排成一个 单向链表 。
-   *  各个存放 用户记录的页 也是根据页中用户记录的主键大小顺序排成一个 双向链表 。 
-   *  存放 目录项记录的页 分为不同的层次，在同一层次中的页也是根据页中目录项记录的主键 大小顺序排成一个 双向链表 。
+   
+   * 页内 的记录是按照主键的大小顺序排成一个 单向链表 。
+   * 各个存放 用户记录的页 也是根据页中用户记录的主键大小顺序排成一个 双向链表 。 
+   * 存放 目录项记录的页 分为不同的层次，在同一层次中的页也是根据页中目录项记录的主键 大小顺序排成一个 双向链表 。
 
 2. B+树的 叶子节点 存储的是完整的用户记录。
-
+   
    所谓完整的用户记录，就是指这个记录中存储了所有列的值（包括隐藏列）。
 
 **二级索引（辅助索引、非聚簇索引）**
@@ -862,7 +891,7 @@ SELECT [列名列表] FROM 表名 WHERE 列名 = xxx;
 * 为c2和c3列分别建立索引会分别以c2和c3列的大小为排序规则建立2棵B+树。
 
 > InnoDB的B+树索引的注意事项:
->
+> 
 > 1. 根页面位置万年不动 
 > 2. 内节点中目录项记录的唯一性
 > 3. 一个页面最少存储2条记录
@@ -927,7 +956,7 @@ mysql中的具体数据是存储在行中的，而行是存储在页中的，每
 3. fil_page_prv 和 file_page_next: 两个数据页逻辑相邻的标识
 
 4. fil_page_space_or_chksum: 磁盘与内存数据交互之前计算一个校验和，交互完成后再计算一个校验和，如果两次校验和相同，表示传输正常；如何不相等，表示传输有问题。
-
+   
    **校验和**是用于检测传输过程中可能产生的错误，将其置于数据后，随数据一同发送，接收端通过同样的算法进行检查，若正确就接受，错误就丢弃
 
 ### 第二部分：User Record（用户记录）、最大最小记录、Free Space（空闲空间）
@@ -937,11 +966,11 @@ mysql中的具体数据是存储在行中的，而行是存储在页中的，每
 ![image-20220425155607269](index.assets/image-20220425155607269.png)
 
 1. Free Space
-
+   
    一开始生成页的时候并没有User Records这个部分.每当我们插⼊⼀条记录，都会从Free Space部分，也就是尚未使⽤的存储空间中申请⼀个记录⼤⼩的空间划分到User Records部分，当Free Space部分的空间全部被User Records部分替代掉之后，也就意味着这个页使⽤完了，如果还有新的记录插⼊的话，就需要去申请新的页了。
 
 2. User Records
-
+   
    User Records的记录按照指定的行格式列在User Records中，相互之间形成单链表
 
 3. 最大最小记录（heap_no中）
@@ -949,35 +978,35 @@ mysql中的具体数据是存储在行中的，而行是存储在页中的，每
 如何形成单链表--> **记录头信息**
 
 1. delete_mask: 
-
+   
    是否被删除，1表示删除，0表示未删除；
 
 2. min_rec_mask:
-
+   
    记录是否为叶子结点，1不是 叶子几点，0表示 叶子结点 ；
 
 3. record_type：
-
+   
    0表示普通节点，1表示B+树非叶子节点，2表示最小记录，3表示最大记录
 
 4. heap_no：
-
+   
    ![image-20220425160626384](index.assets/image-20220425160626384.png)
-
+   
    表示记录的当前位置，0为最小记录，1为最大记录
 
 5. n_owned（page_Directory）
-
+   
    分组后的个数
-
+   
    ![image-20220425161520129](index.assets/image-20220425161520129.png)
 
 6. **next_record**
-
+   
    记录下一条数据的地址偏移量
-
+   
    删除操作：①删除记录的delete_mask设置为1，②被删除记录的**上一条记录**指向删除记录的**下一条记录**，③将第二组的n_owned修改；**如果删除多条记录，那么多被删除的记录也会形成单链表**（此单链表标识在页目录头部的字段中）
-
+   
    添加操作：严格按照主键的大小进行插入，而不是按照添加的顺序插入（页目录的头部中page_direction字段记录当前插入主键的位置在前还是在后）
 
 ### 第三部分：Page Directory（页目录）、Page Header（页面头部）
@@ -1042,18 +1071,16 @@ Compact行格式会把可以为NULL的列统一管理起来，存在一个标记
 
 ![image-20220425165809232](index.assets/image-20220425165809232.png)
 
-
-
 ![image-20220425170046207](index.assets/image-20220425170046207.png)
 
 1. 变长字段，
-
+   
    03：'ccc';
-
+   
    02: 'bb';
-
+   
    01: 'a'
-
+   
    char为定长所以不用写入变长字段列表
 
 2. 没有null所以为00。设置非空的字段不用记录null值
@@ -1108,11 +1135,11 @@ dynamic基本与Compact一致；
 
 MySQL的索引包括普通索引、唯一性索引、全文索引、单列索引、多列索引和空间索引等。
 
-*  从 功能逻辑 上说，索引主要有 4 种，分别是普通索引、唯一索引、主键索引、全文索引。 
+* 从 功能逻辑 上说，索引主要有 4 种，分别是普通索引、唯一索引、主键索引、全文索引。 
 
-*  按照 物理实现方式 ，索引可以分为 2 种：聚簇索引和非聚簇索引。 
+* 按照 物理实现方式 ，索引可以分为 2 种：聚簇索引和非聚簇索引。 
 
-*  按照 作用字段个数 进行划分，分成单列索引和联合索引。
+* 按照 作用字段个数 进行划分，分成单列索引和联合索引。
 
 **普通索引**、**唯一性索引** 、**主键索引** 、**单列索引** 、**多列(组合、联合)索引** 、**全文索引**、**空间索引**
 
@@ -1120,11 +1147,11 @@ MySQL的索引包括普通索引、唯一性索引、全文索引、单列索引
 
 基本语法
 
-~~~mysql
+```mysql
 CREATE TABLE table_name [col_name data_type]
 [UNIQUE | FULLTEXT | SPATIAL] [INDEX | KEY] [index_name] (col_name [length]) [ASC |
 DESC]
-~~~
+```
 
 * `UNIQUE` 、 `FULLTEXT` 和` SPATIAL` 为可选参数，分别表示唯一索引、全文索引和空间索引；
 * `INDEX` 与 `KEY` 为同义词，两者的作用相同，用来指定创建索引； 
@@ -1135,7 +1162,7 @@ DESC]
 
 普通索引
 
-~~~mysql
+```mysql
 CREATE TABLE book(
 book_id INT ,
 book_name VARCHAR(100),
@@ -1145,23 +1172,23 @@ comment VARCHAR(100),
 year_publication YEAR,
 INDEX(year_publication) #~
 );
-~~~
+```
 
 唯一索引
 
-~~~mysql
+```mysql
 CREATE TABLE test1(
 id INT NOT NULL,
 name varchar(30) NOT NULL,
 UNIQUE INDEX uk_idx_id(id) #~
 );
-~~~
+```
 
 主键索引
 
 设定为主键后数据库会自动建立索引，innodb为聚簇索引
 
-~~~mysql
+```mysql
 # 随表一起建索引：
 CREATE TABLE student (
 id INT(10) UNSIGNED AUTO_INCREMENT ,
@@ -1172,23 +1199,23 @@ PRIMARY KEY(id) #~
 # 删除主键索引：
 ALTER TABLE student
 drop PRIMARY KEY ;
-~~~
+```
 
 > 修改主键索引：必须先删除掉(drop)原索引，再新建(add)索引
 
 单列索引
 
-~~~mysql
+```mysql
 CREATE TABLE test2(
 id INT NOT NULL,
 name CHAR(50) NULL,
 INDEX single_idx_name(name(20)) #~
 );
-~~~
+```
 
 组合索引
 
-~~~mysql
+```mysql
 CREATE TABLE test3(
 id INT(11) NOT NULL,
 name CHAR(30) NOT NULL,
@@ -1196,11 +1223,11 @@ age INT(11) NOT NULL,
 info VARCHAR(255),
 INDEX multi_idx(id,name,age) #~
 );
-~~~
+```
 
 全文索引
 
-~~~mysql
+```mysql
 # 在表中的info字段上建立全文索引
 CREATE TABLE test4(
 id INT NOT NULL,
@@ -1216,11 +1243,11 @@ title VARCHAR (200),
 body TEXT,
 FULLTEXT index (title, body) #~
 ) ENGINE = INNODB ;
-~~~
+```
 
 > 在MySQL5.7及之后版本中可以不指定最后的ENGINE了，因为在此版本中InnoDB支持全文索引。
 
-~~~mysql
+```mysql
 CREATE TABLE `papers` (
 `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
 `title` varchar(200) DEFAULT NULL,
@@ -1232,23 +1259,23 @@ FULLTEXT KEY `title` (`title`,`content`)#~
 SELECT * FROM papers WHERE content LIKE ‘%查询字符串%’;
 #全文索引用match+against方式查询：
 SELECT * FROM papers WHERE MATCH(title,content) AGAINST (‘查询字符串’);
-~~~
+```
 
 > 注意点 
->
+> 
 > 1. 使用全文索引前，搞清楚版本支持情况； 
 > 2. 全文索引比 like + % 快 N 倍，但是可能存在精度问题； 
 > 3. 如果需要全文索引的是大量数据，建议先添加数据，再创建索引。
 
 空间索引
 
-~~~mysql
+```mysql
 # 空间索引创建中，要求空间类型的字段必须为 非空 。
 CREATE TABLE test5(
 geo GEOMETRY NOT NULL,
 SPATIAL INDEX spa_idx_geo(geo) #~
 ) ENGINE=MyISAM;
-~~~
+```
 
 ### 已经存在的表上创建索引
 
@@ -1256,31 +1283,31 @@ SPATIAL INDEX spa_idx_geo(geo) #~
 
 * 使用ALTER TABLE语句创建索引，基本语法
 
-~~~mysql
+```mysql
 ALTER TABLE table_name ADD [UNIQUE | FULLTEXT | SPATIAL] [INDEX | KEY]
 [index_name] (col_name[length],...) [ASC | DESC]
-~~~
+```
 
 * 使用CREATE INDEX创建索引，基本语法
 
-~~~mysql
+```mysql
 CREATE [UNIQUE | FULLTEXT | SPATIAL] INDEX index_name
 ON table_name (col_name[length],...) [ASC | DESC]
-~~~
+```
 
-###  删除索引
+### 删除索引
 
 * 使用ALTER TABLE删除索引 ALTER TABLE删除索引的基本语法格式如下：
 
-~~~mysql
+```mysql
 ALTER TABLE table_name DROP INDEX index_name;
-~~~
+```
 
 * 使用DROP INDEX语句删除索引 DROP INDEX删除索引的基本语法格式如下：
 
-~~~mysql
+```mysql
 DROP INDEX index_name ON table_name;
-~~~
+```
 
 ## 索引新特性MySQL8.0
 
@@ -1288,15 +1315,15 @@ DROP INDEX index_name ON table_name;
 
 举例
 
-~~~mysql
+```mysql
 CREATE TABLE ts1(a int,b int,index idx_a_b(a,b desc));
-~~~
+```
 
 执行计划：
 
-~~~mysql
+```mysql
 EXPLAIN SELECT * FROM ts1 ORDER BY a,b DESC LIMIT 5;
-~~~
+```
 
 * mysql5.7
   * 从结果可以看出，执行计划中扫描数为799，而且使用了Using filesort。
@@ -1309,7 +1336,7 @@ EXPLAIN SELECT * FROM ts1 ORDER BY a,b DESC LIMIT 5;
 
 * **创建表时直接创建** 在MySQL中创建隐藏索引通过SQL语句INVISIBLE来实现，其语法形式如下：
 
-~~~mysql
+```mysql
 CREATE TABLE tablename(
 propname1 type1[CONSTRAINT1],
 propname2 type2[CONSTRAINT2],
@@ -1318,21 +1345,21 @@ propnamen typen,
 INDEX [indexname](propname1 [(length)]) INVISIBLE
 );
 #上述语句比普通索引多了一个关键字INVISIBLE，用来标记索引为不可见索引。
-~~~
+```
 
 * **在已经存在的表上创建**可以为已经存在的表设置隐藏索引，其语法形式如下：
 
-~~~mysql
+```mysql
 CREATE INDEX indexname
 ON tablename(propname[(length)]) INVISIBLE;
-~~~
+```
 
 * **切换索引可见状态** 已存在的索引可通过如下语句切换可见状态：
 
-~~~mysql
+```mysql
 ALTER TABLE tablename ALTER INDEX index_name INVISIBLE; #切换成隐藏索引
 ALTER TABLE tablename ALTER INDEX index_name VISIBLE; #切换成非隐藏索引
-~~~
+```
 
 > 注意 当索引被隐藏时，它的内容仍然是和正常索引一样实时更新的。如果一个索引需要长期被隐 藏，那么可以将其删除，因为索引的存在会影响插入、更新和删除的性能。
 
@@ -1345,65 +1372,65 @@ ALTER TABLE tablename ALTER INDEX index_name VISIBLE; #切换成非隐藏索引
 ### 适合创建索引
 
 1. **字段的数值有唯一性的限制**
-
+   
    业务上具有唯一特性的字段，即使是组合字段，也必须建成唯一索引。
-
+   
    说明：不要以为唯一索引影响了 insert 速度，这个速度损耗可以忽略，但提高查找速度是明显的。
 
 2. **频繁作为 WHERE 查询条件的字段**
-
+   
    某个字段在SELECT语句的 WHERE 条件中经常被使用到，那么就需要给这个字段创建索引了。尤其是在 数据量大的情况下，创建普通索引就可以大幅提升数据查询的效率。 
-
+   
    例：比如student_info数据表（含100万条数据），假设我们想要查询 student_id=123110 的用户信息。
 
 3. **经常 GROUP BY 和 ORDER BY 的列**
-
+   
    索引就是让数据按照某种顺序进行存储或检索，因此当我们使用 GROUP BY 对数据进行分组查询，或者 使用 ORDER BY 对数据进行排序的时候，就需要对分组或者排序的字段进行索引 。如果待排序的列有多个，那么可以在这些列上建立组合索引 。
 
 4. **UPDATE、DELETE 的 WHERE 条件列**
-
+   
    对数据按照某个条件进行查询后再进行 UPDATE 或 DELETE 的操作，如果对 WHERE 字段创建了索引，就 能大幅提升效率。原理是因为我们需要先根据 WHERE 条件列检索出来这条记录，然后再对它进行更新或 删除。
-
+   
    如果进行更新的时候，更新的字段是非索引字段，提升的效率会更明显，这是因为非索引字段更 新不需要对索引进行维护。
 
 5. **DISTINCT 字段需要创建索引**
-
+   
    有时候我们需要对某个字段进行去重，使用 DISTINCT，那么对这个字段创建索引，也会提升查询效率。
-
+   
    ![image-20220428164602018](index.assets/image-20220428164602018.png)
 
 6. **多表 JOIN 连接操作时，创建索引注意事项**
-
+   
    首先， <u>连接表的数量尽量不要超过 3 张</u> ，因为每增加一张表就相当于增加了一次嵌套的循环，数量级增 长会非常快，严重影响查询的效率。 
-
+   
    其次， <u>对 WHERE 条件创建索引</u> ，因为 WHERE 才是对数据条件的过滤。如果在数据量非常大的情况下， 没有 WHERE 条件过滤是非常可怕的。 
-
+   
    最后， <u>对用于连接的字段创建索引 ，并且该字段在多张表中的类型必须一致</u> 。比如 course_id 在 student_info 表和 course 表中都为 int(11) 类型，而不能一个为 int 另一个为 varchar 类型。
 
 7. **使用列的类型小的创建索引**
-
+   
    类型大小为该类型的范围大小。
-
+   
    数据类型越小，在查询进行的比较操作快；数据类型越小，索引占用存储空间越小，在一个数据页内可以放下更多的数据，减少磁盘I/O。
 
 8. **使用字符串前缀创建索引**
-
+   
    创建一张商户表，因为地址字段比较长，在地址字段上建立前缀索引
-
-   ~~~mysql
+   
+   ```mysql
    create table shop(address varchar(120) not null);
    alter table shop add index(address(12));
-   ~~~
-
+   ```
+   
    问题是，截取多少呢？截取得多了，达不到节省索引存储空间的目的；截取得少了，重复内容太多，字 段的散列度(选择性)会降低。怎么计算不同的长度的选择性呢？
-
-   ~~~mysql
+   
+   ```mysql
    #截取公式
    count(distinct left(列名, 索引长度))/count(*)
-   ~~~
-
+   ```
+   
    【 强制 】在 varchar 字段上建立索引时，必须指定索引长度，没必要对全字段建立索引，根据实际文本 区分度决定索引长度。
-
+   
    > 说明：索引的长度与区分度是一对矛盾体，一般对字符串类型数据，长度为 20 的索引，区分度会 高达 90% 以上 ，可以使用 count(distinct left(列名, 索引长度))/count(*)的区分度来确定。
 
 9. **区分度高(散列性高)的列适合作为索引**
@@ -1417,25 +1444,25 @@ ALTER TABLE tablename ALTER INDEX index_name VISIBLE; #切换成非隐藏索引
 1. **在where中使用不到的字段，不要设置索引**
 
 2. **数据量小的表最好不要使用索引**
-
+   
    在数据表中的数据行数比较少的情况下，比如不到 1000 行，是不需要创建索引的。
 
 3. **有大量重复数据的列上不要建立索引**
-
+   
    当数据重复度大，比如 高于 10% 的时候，也不需要对这个字段使用索引。
 
 4. **避免对经常更新的表创建过多的索引**
 
 5. **不建议用无序的值作为索引**
-
+   
    例如身份证、UUID(在索引比较时需要转为ASCII，并且插入时可能造成页分裂)、MD5、HASH、无序长字 符串等
 
 6. **删除不再使用或者很少使用的索引**
 
 7. **不要定义冗余或重复的索引**
-
+   
    冗余： 我们知道，通过 idx_name_birthday_phone_number 索引就可以对 name 列进行快速搜索，再创建一 个专门针对 name 列的索引就算是一个 冗余索引 ，维护这个索引只会增加维护的成本，并不会对搜索有 什么好处。
-
+   
    重复： col1 既是主键、又给它定义为一个唯一索引，还给它定义了一个普通索引，可是主键本身就 会生成聚簇索引，所以定义的唯一索引和普通索引是重复的，这种情况要避免。
 
 # 性能分析工具使用
@@ -1444,32 +1471,32 @@ ALTER TABLE tablename ALTER INDEX index_name VISIBLE; #切换成非隐藏索引
 
 基本语法：
 
-~~~mysql
+```mysql
 EXPLAIN SELECT select_options
 或者
 DESCRIBE SELECT select_options
-~~~
+```
 
 `EXPLAIN` 语句输出的各个列的作用如下：
 
 ![image-20220428182500957](index.assets/image-20220428182500957.png)
 
 1. **table**
-
+   
    不论我们的查询语句有多复杂，里边儿 包含了多少个表 ，到最后也是需要对每个表进行 单表访问 的，所 以MySQL规定EXPLAIN语句输出的每条记录都对应着某个单表的访问方法，该条记录的table列代表着该 表的表名（有时不是真实的表名字，可能是简称）。
 
 2. **id**
-
+   
    id如果相同，可以认为是一组，从上往下顺序执行 
-
+   
    在所有组中，id值越大，优先级越高，越先执行 
-
+   
    关注点：id号每个号码，表示一趟独立的查询, 一个sql的查询趟数越少越好
 
 3. **select_type**
-
+   
    SELECT关键字对应的那个查询的类型,确定小查询在整个大查询中扮演了一个什么角色
-
+   
    * SIMPLE：查询语句中不包含`UNION`或者子查询的查询都算作是`SIMPLE`类型，连接查询也算是`SIMPLE`类型
    * PRIMARY：对于包含`UNION`或者`UNION ALL`或者子查询的大查询来说，它是由几个小查询组成的，其中最左边的那个询的`select_type`值就是`PRIMARY`
    * UNION：对于包含`UNION`或者`UNION ALL`的大查询来说，它是由几个小查询组成的，其中除了最左边的那个小查询以外，其余的小查询的`select_type`值就是`UNION`
@@ -1478,13 +1505,13 @@ DESCRIBE SELECT select_options
    * DEPENDENT UNION：在包含`UNION`或者`UNION ALL`的大查询中，如果各个小查询都依赖于外层查询的话，那除了最左边的那个小查询之外，其余的小查询的`select_type`的值就是`DEPENDENT UNION`。
    * DERIVED：用于 from 子句里有子查询的情况。MySQL 会递归执行这些子查询, 把结果放在临时表里
    * MATERIALIZED：当查询优化器在执行包含子查询的语句时，选择将子查询物化之后与外层查询进行连接查询时，该子查询对应的`select_type`属性就是`MATERIALIZED`
-
+   
    > 特别关注 `DEPENDENT SUBQUERY `，会严重消耗性能，不会进行子查询，会先进行外部查询,生成结果集,再在内部进行关联查询。子查询的执行效率受制于外层查询的记录数
 
 4. **type**
-
+   
    常用的类型有： ALL、index、range、 ref、eq_ref、const、system(从左到右，性能从差到好)
-
+   
    * ALL: MySQL将遍历全表以找到匹配的行
    * index: 遍历索引树
    * range: 只检索给定范围的行，使用索引来选择行
@@ -1494,29 +1521,29 @@ DESCRIBE SELECT select_options
    * system: 表中只有一行
 
 5. **possible_keys**
-
+   
    预测用到的索引
 
 6. **key**
-
+   
    实际用到的索引
 
 7. **key_len**
-
+   
    表示索引中使用的字节数，可通过该列计算查询中使用的索引的长度
 
 8. **ref**
-
+   
    哪些列或者常量被用于查找索引列上的值(只有当type为ref的时候，ref这列才会有值)
 
 9. **rows**
-
+   
    估算的找到所需的记录所需要读取的行数
 
 10. **Extra**
-
+    
     包含MySQL解决查询的详细信息
-
+    
     * Using filesort: mysql的排序方法主要分为两大类，一种是排序的字段是有索引的，因为索引是有序的，所以不需要另外排序，另一种是排序的字段没有索引，所以需要对结果进行排序，在这种情况下才会如上所示显示一个Using filesort
     * using temporary：性能损耗大，用到临时表(常见于group by)
     * using where：表明虽然用到了索引，但是没有索引覆盖，产生了回表。
@@ -1528,59 +1555,59 @@ DESCRIBE SELECT select_options
 ## 索引失效
 
 1. **最佳左前缀法则**
-
+   
    索引文件具有 B-Tree 的最左前缀匹配特性，如果左边的值未确定，那么无法使用此索引。
 
 2. **主键插入顺序**
-
+   
    我们自定义的主键列 id 拥有 AUTO_INCREMENT 属性，在插入记录时存储引擎会自动为我们填入自增的 主键值。这样的主键占用空间小，顺序写入，减少页分裂。
 
 3. **计算、函数、类型转换(自动或手动)导致索引失效**
-
-   ~~~mysql
+   
+   ```mysql
    #此语句比下一条要好！（能够使用上索引）
    EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE student.name LIKE 'abc%';
    #使用函数导致索引失效
    EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE LEFT(student.name,3) = 'abc'; 
-   ~~~
+   ```
 
 4. **类型转换导致索引失效**
-
-   ~~~mysql
+   
+   ```mysql
    # name为Varchar的需要类型转换，失效
    EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE NAME = 123; 
    # 有效
    EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE NAME = '123'; 
-   ~~~
+   ```
 
 5. **范围条件右边的列索引失效**
-
-   ~~~mysql
+   
+   ```mysql
    CREATE INDEX idx_age_classId_name ON student(age,classId,NAME);
    
    EXPLAIN SELECT SQL_NO_CACHE * FROM student 
    WHERE student.age=30 AND student.classId>20 AND student.name = 'abc' ; 
-   ~~~
+   ```
 
 6. **不等于(!= 或者<>)索引失效**
 
 7. **is null可以使用索引，is not null无法使用索引**
 
 8. **like以通配符%开头索引失效**
-
-   ~~~mysql
+   
+   ```mysql
    EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE NAME LIKE 'ab%'; 
    
    EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE NAME LIKE '%ab%';
-   ~~~
+   ```
 
 9. **OR 前后存在非索引的列，索引失效**
-
-   ~~~mysql
+   
+   ```mysql
    CREATE INDEX idx_age ON student(age);
    
    EXPLAIN SELECT SQL_NO_CACHE * FROM student WHERE age = 10 OR classid = 100;
-   ~~~
+   ```
 
 10. **数据库和表的字符集统一使用utf8mb4**
 
@@ -1588,43 +1615,43 @@ DESCRIBE SELECT select_options
 
 ### 采用左外连接
 
-~~~mysql
+```mysql
 EXPLAIN SELECT SQL_NO_CACHE * FROM `type` LEFT JOIN book ON type.card = book.card;
 # 结论：type 有All
-~~~
+```
 
 添加索引优化
 
-~~~mysql
+```mysql
 ALTER TABLE book ADD INDEX Y ( card); #【被驱动表】，可以避免全表扫描
 
 EXPLAIN SELECT SQL_NO_CACHE * FROM `type` LEFT JOIN book ON type.card = book.card;
-~~~
+```
 
 LEFT JOIN 条件用于确定如何从右表搜索行，左边一定都有，所以 右边是我们的关键点,一定需要建立索引 。
 
 ### 采用内连接
 
-~~~mysql
+```mysql
 EXPLAIN SELECT SQL_NO_CACHE * FROM type INNER JOIN book ON type.card=book.card;
 #结论：type 有All
-~~~
+```
 
 添加索引优化
 
-~~~mysql
+```mysql
 ALTER TABLE book ADD INDEX Y ( card);
 
 EXPLAIN SELECT SQL_NO_CACHE * FROM type INNER JOIN book ON type.card=book.card;
-~~~
+```
 
 ![image-20220428194228185](index.assets/image-20220428194228185.png)
 
-~~~mysql
+```mysql
 ALTER TABLE type ADD INDEX X (card);
 
 EXPLAIN SELECT SQL_NO_CACHE * FROM type INNER JOIN book ON type.card=book.card;
-~~~
+```
 
 ![image-20220428194244763](index.assets/image-20220428194244763.png)
 
@@ -1634,9 +1661,9 @@ inner join 中，两张表权重一样，优化器会进行优化，数据量小
 
 * Index Nested-Loop Join
 
-~~~mysql
+```mysql
 EXPLAIN SELECT * FROM t1 STRAIGHT_JOIN t2 ON (t1.a=t2.a);
-~~~
+```
 
 如果直接使用join语句，MySQL优化器可能会选择表t1或t2作为驱动表，这样会影响我们分析SQL语句的 执行过程。所以，为了便于分析执行过程中的性能问题，我改用 straight_join 让MySQL使用固定的 连接方式执行查询，这样优化器只会按照我们指定的方式去join。在这个语句里，t1 是驱动表，t2是被驱 动表。
 
@@ -1644,10 +1671,10 @@ EXPLAIN SELECT * FROM t1 STRAIGHT_JOIN t2 ON (t1.a=t2.a);
 
 可以看到，在这条语句里，被驱动表t2的字段a上有索引，join过程用上了这个索引，因此这个语句的执 行流程是这样的：
 
-1.  从表t1中读入一行数据 R； 
-2.  从数据行R中，取出a字段到表t2里去查找； 
-3.  取出表t2中满足条件的行，跟R组成一行，作为结果集的一部分； 
-4.  重复执行步骤1到3，直到表t1的末尾循环结束。
+1. 从表t1中读入一行数据 R； 
+2. 从数据行R中，取出a字段到表t2里去查找； 
+3. 取出表t2中满足条件的行，跟R组成一行，作为结果集的一部分； 
+4. 重复执行步骤1到3，直到表t1的末尾循环结束。
 
 这个过程是先遍历表t1，然后根据从表t1中取出的每行数据中的a值，去表t2中查找满足条件的记录。在 形式上，这个过程就跟我们写程序时的嵌套查询类似，并且可以用上被驱动表的索引，所以我们称之为 “Index Nested-Loop Join”，简称NLJ。
 
@@ -1655,9 +1682,6 @@ EXPLAIN SELECT * FROM t1 STRAIGHT_JOIN t2 ON (t1.a=t2.a);
 
 1. 使用join语句，性能比强行拆成多个单表执行SQL语句的性能要好；
 2. 如果使用join语句的话，需要让小表做驱动表。
-
-
-
 * Block Nested-Loop Join
 
 举个简单的例子：外层循环结果集有1000行数据，使用NLJ算法需要扫描内层表1000次，但如果使用BNL算法，则先取出外层表结果集的100行存放到join buffer, 然后用内层表的每一行数据去和这100行结果集做比较，可以一次性与100行数据进行比较，这样内层表其实只需要循环1000/100=10次，减少了9/10。
@@ -1682,7 +1706,7 @@ EXPLAIN SELECT * FROM t1 STRAIGHT_JOIN t2 ON (t1.a=t2.a);
 2. 尽量使用 Index 完成 ORDER BY 排序。如果 WHERE 和 ORDER BY 后面是相同的列就使用单索引列； 如果不同就使用联合索引。 
 3. 无法使用 Index 时，需要对 FileSort 方式进行调优。
 
-~~~mysql
+```mysql
 INDEX a_b_c(a,b,c)
 order by 能使用索引最左前缀
 - ORDER BY a
@@ -1700,7 +1724,7 @@ order by 能使用索引最左前缀
 - WHERE a = const ORDER BY c /*丢失b索引*/
 - WHERE a = const ORDER BY a,d /*d不是索引的一部分*/
 - WHERE a in (...) ORDER BY b,c /*对于排序来说，多个相等条件也是范围查询*/
-~~~
+```
 
 ### filesort算法：双路排序和单路排序
 
@@ -1809,9 +1833,9 @@ ICP的 加速效果 取决于在存储引擎内通过 ICP筛选 掉的数据的�
 
 案例：
 
-~~~mysql
+```mysql
 EXPLAIN SELECT * FROM s1 WHERE key1 > 'z' AND key1 LIKE '%a';
-~~~
+```
 
 未使用ICP： 通过key1索引查找符合索引数据回表查询数据，再进行`key1 like '%a'`的条件过滤
 
@@ -1889,19 +1913,19 @@ EXPLAIN SELECT * FROM s1 WHERE key1 > 'z' AND key1 LIKE '%a';
 
 `比赛表 player_game` ，里面包含球员编号、姓名、年龄、比赛编号、比赛时间和比赛场地等属性，这 里候选键和主键都为（球员编号，比赛编号），我们可以通过候选键（或主键）来决定如下的关系：
 
-~~~mysql
+```mysql
 (球员编号, 比赛编号) → (姓名, 年龄, 比赛时间, 比赛场地，得分)
-~~~
+```
 
 但是这个数据表不满足第二范式，因为数据表中的字段之间还存在着如下的对应关系：
 
 对于非主属性来说，并非完全依赖候选键(主键)。
 
-~~~mysql
+```mysql
 (球员编号) → (姓名，年龄) 
 
 (比赛编号) → (比赛时间, 比赛场地)
-~~~
+```
 
 ![image-20220501095002267](index.assets/image-20220501095002267.png)
 
@@ -1976,7 +2000,7 @@ EXPLAIN SELECT * FROM s1 WHERE key1 > 'z' AND key1 LIKE '%a';
 * 如果在关系R中，U为主键，A属性是主键的一个属性，若存在A->Y，Y为主属性，则该关系不属于 BCNF
 * 巴斯范式针对解决主属性之间的依赖关系
 
-### 总结 
+### 总结
 
 1. 第一范式针对解决属性
 2. 第二范式针对解决非主属性对主属性的依赖关系。
@@ -1996,11 +2020,11 @@ EXPLAIN SELECT * FROM s1 WHERE key1 > 'z' AND key1 LIKE '%a';
 
 员工的信息存储在 `employees 表` 中，部门信息存储在 `departments 表` 中。通过 `employees 表`中的 `department_id`字段与 `departments表`建立关联关系。如果要查询一个员工所在部门的名称：
 
-~~~mysql
+```mysql
 select employee_id,department_name
 from employees e join departments d
 on e.department_id = d.department_id;
-~~~
+```
 
 如果经常需要进行这个操作，连接查询就会浪费很多时间。可以在 `employees 表`中增加一个冗余字段` department_name`，这样就不用每次都进行连接操作了。
 
@@ -2056,7 +2080,7 @@ on e.department_id = d.department_id;
 15. 【建议】中间表（或临时表）用于保留中间结果集，名称以 tmp_ 开头。 备份表用于备份或抓取源表快照，名称以 bak_ 开头。中间表和备份表定期清理。
 16. 【示范】一个较为规范的建表语句：
 
-~~~mysql
+```mysql
 CREATE TABLE user_info (
     `id` int unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
     `user_id` bigint(11) NOT NULL COMMENT '用户id',
@@ -2078,7 +2102,7 @@ CREATE TABLE user_info (
     KEY `idx_username`(`username`),
     KEY `idx_create_time_status`(`create_time`,`user_review_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='网站用户基本信息'
-~~~
+```
 
 ### 关于索引
 
@@ -2137,11 +2161,11 @@ CREATE TABLE user_info (
 
 **步骤1**： START TRANSACTION 或者 BEGIN ，作用是显式开启一个事务。
 
-~~~mysql
+```mysql
 mysql> BEGIN;
 #或者
 mysql> START TRANSACTION; 
-~~~
+```
 
 `START TRANSACTION` 语句相较于 `BEGIN` 特别之处在于，后边能跟随几个 修饰符 ：
 
@@ -2155,20 +2179,20 @@ mysql> START TRANSACTION;
 
 **步骤3**：提交事务 或 中止事务（即回滚事务）
 
-~~~mysql
+```mysql
 # 提交事务。当提交事务后，对数据库的修改是永久性的。
 mysql> COMMIT;
 # 回滚事务。即撤销正在进行的所有没有提交的修改
 mysql> ROLLBACK;
 # 将事务回滚到某个保存点。
 mysql> ROLLBACK TO [SAVEPOINT]
-~~~
+```
 
 ### 隐式事务
 
 MySQL中有一个系统变量 autocommit ：
 
-~~~mysql
+```mysql
 mysql> SHOW VARIABLES LIKE 'autocommit';
 +---------------+-------+
 | Variable_name | Value |
@@ -2176,18 +2200,18 @@ mysql> SHOW VARIABLES LIKE 'autocommit';
 | autocommit | ON |
 +---------------+-------+
 1 row in set (0.01 sec)
-~~~
+```
 
 当然，如果我们想关闭这种 自动提交 的功能，可以使用下边两种方法之一：
 
 * 显式的的使用 START TRANSACTION 或者 BEGIN 语句开启一个事务。这样在本次事务提交或者回 滚前会暂时关闭掉自动提交的功能。 
 * 把系统变量 autocommit 的值设置为 OFF ，就像这样：
 
-~~~mysql
+```mysql
 SET autocommit = OFF;
 #或
 SET autocommit = 0;
-~~~
+```
 
 **隐式提交数据的情况**
 
@@ -2196,11 +2220,11 @@ SET autocommit = 0;
 * 隐式使用或修改mysql数据库中的表 
 
 * 事务控制或关于锁定的语句
-
+  
   ① 当我们在一个事务还没提交或者回滚时就又使用 START TRANSACTION 或者 BEGIN 语句开启了 另一个事务时，会 隐式的提交 上一个事务。即： 
-
+  
   ② 当前的 autocommit 系统变量的值为 OFF ，我们手动把它调为 ON 时，也会 隐式的提交 前边语 句所属的事务。 
-
+  
   ③ 使用 LOCK TABLES 、 UNLOCK TABLES 等关于锁定的语句也会 隐式的提交 前边语句所属的事 务。
 
 * 加载数据的语句 
@@ -2221,20 +2245,20 @@ MySQL是一个 客户端／服务器 架构的软件，对于同一个服务器�
 4. 幻读（ Phantom ）： 对于两个事务Session A、Session B, Session A 从一个表中读取了一个字段, 然后 Session B 在该表中 插 入 了一些新的行。之后, 如果 Session A 再次读取同一个表, 就会多出几行。那就意味着发生了幻读。
 
 > 幻读的错误解释：
->
+> 
 > 说幻读是 事务A 执行两次 select 操作得到不同的数据集，即 select 1 得到 10 条记录，select 2 得到 15 条记录。这其实并不是幻读，既然第一次和第二次读取的不一致，那不还是不可重复读吗，所以这是不可重复读的一种。
->
+> 
 > 幻读的正确解释： 
->
+> 
 > 幻读，并不是说两次读取获取的结果集不同，幻读侧重的方面是某一次的 select 操作得到的结果所表征的数据状态无法支撑后续的业务操作。更为具体一些：select 某记录是否存在，不存在，准备插入此记录，但执行 insert 时发现此记录已存在，无法插入，此时就发生了幻读。
 
 ### SQL中的四种隔离级别
 
 上面介绍了几种并发事务执行过程中可能遇到的一些问题，这些问题有轻重缓急之分，我们给这些问题 按照严重性来排一下序：
 
-~~~mysql
+```mysql
 脏写 > 脏读 > 不可重复读 > 幻读
-~~~
+```
 
 我们愿意舍弃一部分隔离性来换取一部分性能在这里就体现在：设立一些隔离级别，隔离级别越低，并 发问题发生的就越多。 SQL标准 中设立了4个 隔离级别 ：
 
@@ -2249,47 +2273,47 @@ MySQL是一个 客户端／服务器 架构的软件，对于同一个服务器�
 
 通过下面的语句修改事务的隔离级别：
 
-~~~mysql
+```mysql
 SET [GLOBAL|SESSION] TRANSACTION ISOLATION LEVEL 隔离级别;
 #其中，隔离级别格式：
 > READ UNCOMMITTED
 > READ COMMITTED
 > REPEATABLE READ
 > SERIALIZABLE
-~~~
+```
 
 或者
 
-~~~mysql
+```mysql
 SET [GLOBAL|SESSION] TRANSACTION_ISOLATION = '隔离级别'
 #其中，隔离级别格式：
 > READ-UNCOMMITTED
 > READ-COMMITTED
 > REPEATABLE-READ
 > SERIALIZABLE
-~~~
+```
 
 关于设置时使用GLOBAL或SESSION的影响：
 
 * 使用 GLOBAL 关键字（在全局范围影响）：
-
-  ~~~mysql
+  
+  ```mysql
   SET GLOBAL TRANSACTION ISOLATION LEVEL SERIALIZABLE;
   #或
   SET GLOBAL TRANSACTION_ISOLATION = 'SERIALIZABLE';
-  ~~~
-
+  ```
+  
   * **当前已经存在的会话无效**
   * 只对执行完该语句之后产生的会话起作用
 
 * 使用 SESSION 关键字（在会话范围影响）：
-
-  ~~~mysql
+  
+  ```mysql
   SET SESSION TRANSACTION ISOLATION LEVEL SERIALIZABLE;
   #或
   SET SESSION TRANSACTION_ISOLATION = 'SERIALIZABLE';
-  ~~~
-
+  ```
+  
   * **对当前会话的所有后续的事务有效** 
   * 如果在事务之间执行，则对后续的事务有效 
   * 该语句可以在已经开启的事务中间执行，但不会影响当前正在执行的事务
@@ -2360,7 +2384,7 @@ SET [GLOBAL|SESSION] TRANSACTION_ISOLATION = '隔离级别'
    * redo日志是顺序写入磁盘的 
    * 事务执行过程中，redo log不断记录
 
-### redo的组成			
+### redo的组成
 
 Redo log可以简单分为以下两个部分：
 
@@ -2371,13 +2395,13 @@ Redo log可以简单分为以下两个部分：
 
 ![image-20220501153941921](index.assets/image-20220501153941921.png)
 
-~~~mysql
+```mysql
 第1步：先将原始数据从磁盘中读入内存中来，修改数据的内存拷贝
 第2步：生成一条重做日志并写入redo log buffer，记录的是数据被修改后的值
 第3步：当事务commit时，将redo log buffer中的内容刷新到 redo log file，对 redo log file采用追加
 写的方式
 第4步：定期将内存中修改的数据刷新到磁盘中
-~~~
+```
 
 ### redo log的刷盘策略
 
@@ -2417,33 +2441,36 @@ redo log是事务持久性的保证，undo log是事务原子性的保证。在�
 * 作用1：回滚数据 
 * 作用2：MVCC
 
-###  undo的存储结构
+### undo的存储结构
 
-1.  **回滚段与undo页**
+1. **回滚段与undo页**
 
 InnoDB对undo log的管理采用段的方式，也就是 回滚段（rollback segment） 。每个回滚段记录了 1024 个 undo log segment ，而在每个undo log segment段中进行 undo页 的申请。 
 
 * 在 InnoDB1.1版本之前 （不包括1.1版本），只有一个rollback segment，因此支持同时在线的事务 限制为 1024 。虽然对绝大多数的应用来说都已经够用。 
+
 * 从1.1版本开始InnoDB支持最大 128个rollback segment ，故其支持同时在线的事务限制提高到 了 128*1024 。
+2. **回滚段与事务**
 
-2.  **回滚段与事务**
+3. 每个事务只会使用一个回滚段，一个回滚段在同一时刻可能会服务于多个事务。
 
-3.  每个事务只会使用一个回滚段，一个回滚段在同一时刻可能会服务于多个事务。
-4.  当一个事务开始的时候，会制定一个回滚段，在事务进行的过程中，当数据被修改时，原始的数 据会被复制到回滚段。
-5.  在回滚段中，事务会不断填充盘区，直到事务结束或所有的空间被用完。如果当前的盘区不够 用，事务会在段中请求扩展下一个盘区，如果所有已分配的盘区都被用完，事务会覆盖最初的盘 区或者在回滚段允许的情况下扩展新的盘区来使用。 
-6.  回滚段存在于undo表空间中，在数据库中可以存在多个undo表空间，但同一时刻只能使用一个 undo表空间。 
-7.  当事务提交时，InnoDB存储引擎会做以下两件事情： 
-    * 将undo log放入列表中，以供之后的purge操作 
-    * 判断undo log所在的页是否可以重用，若可以分配给下个事务使用
+4. 当一个事务开始的时候，会制定一个回滚段，在事务进行的过程中，当数据被修改时，原始的数 据会被复制到回滚段。
 
-8.  **回滚段中的数据分类**
+5. 在回滚段中，事务会不断填充盘区，直到事务结束或所有的空间被用完。如果当前的盘区不够 用，事务会在段中请求扩展下一个盘区，如果所有已分配的盘区都被用完，事务会覆盖最初的盘 区或者在回滚段允许的情况下扩展新的盘区来使用。 
 
+6. 回滚段存在于undo表空间中，在数据库中可以存在多个undo表空间，但同一时刻只能使用一个 undo表空间。 
+
+7. 当事务提交时，InnoDB存储引擎会做以下两件事情： 
+   
+   * 将undo log放入列表中，以供之后的purge操作 
+   * 判断undo log所在的页是否可以重用，若可以分配给下个事务使用
+
+8. **回滚段中的数据分类**
 * 未提交的回滚数据(uncommitted undo information) 
 
 * 已经提交但未过期的回滚数据(committed undo information)
 
 * 事务已经提交并过期的数据(expired undo information)
-
 4. **undo log的生命周期**
 
 ![image-20220501155234267](index.assets/image-20220501155234267.png)
@@ -2452,10 +2479,10 @@ InnoDB对undo log的管理采用段的方式，也就是 回滚段（rollback se
 
 **当我们执行INSERT时：**
 
-~~~mysql
+```mysql
 begin;
 INSERT INTO user (name) VALUES ("tom");
-~~~
+```
 
 ![image-20220501155406873](index.assets/image-20220501155406873.png)
 
@@ -2463,9 +2490,9 @@ INSERT INTO user (name) VALUES ("tom");
 
 ![image-20220501155422077](index.assets/image-20220501155422077.png)
 
-~~~mysql
+```mysql
 UPDATE user SET id=2 WHERE id=1;
-~~~
+```
 
 ![image-20220501155437842](index.assets/image-20220501155437842.png)
 
@@ -2481,11 +2508,11 @@ UPDATE user SET id=2 WHERE id=1;
 **undo log的删除**
 
 * 针对于insert undo log 
-
+  
   因为insert操作的记录，只对事务本身可见，对其他事务不可见。故该undo log可以在事务提交后直接删 除，不需要进行purge操作。
 
 * 针对于update undo log
-
+  
   该undo log可能需要提供MVCC机制，因此不能在事务提交时就进行删除。提交时放入undo log链表，等 待purge线程进行最后的删除。
 
 purge线程是什么：
@@ -2493,8 +2520,6 @@ purge线程是什么：
 - 为了节省磁盘空间，InnoDB有专门的purge线程来清理deleted_bit为true的记录。
 - 为了不影响MVCC的正常工作，purge线程自己也维护了一个read view(这个read view相当于系统中最老活跃事务的read view)；
   - 如果某个记录的deleted_bit为true，并且DB_TRX_ID相对于purge线程的read view可见，那么这条记录一定是可以被安全清除的。
-
-
 
 ## 总结
 
@@ -2531,7 +2556,6 @@ purge线程是什么：
 * 获取锁失败，或者加锁失败，或者没有获取到锁
   意思就是在内存中生成了对应的 锁结构 ，不过锁结构的 is_waiting 属性为 true ，也就是事务需要等待，不可以继续执行操作。
 
-
 ### 读-写或写-读情况
 
 读-写 或 写-读 ，即一个事务进行读取操作，另一个进行改动操作。这种情况下可能发生 脏读 、 不可重 复读 、 幻读 的问题。
@@ -2545,7 +2569,7 @@ purge线程是什么：
 * 方案一：读操作利用多版本并发控制（ MVCC ），写操作进行 加锁 。
 
 > 普通的SELECT语句在READ COMMITTED和REPEATABLE READ隔离级别下会使用到MVCC读取记录。
->
+> 
 > * 在 READ COMMITTED (读已提交)隔离级别下，一个事务在执行过程中每次执行SELECT操作时都会生成一 个ReadView，ReadView的存在本身就保证了 事务不可以读取到未提交的事务所做的更改 ，也就 是避免了脏读现象；
 > * 在 REPEATABLE READ(可重复读) 隔离级别下，一个事务在执行过程中只有 第一次执行SELECT操作 才会 生成一个ReadView，之后的SELECT操作都 复用 这个ReadView，这样也就避免了不可重复读 和幻读的问题。
 
@@ -2559,8 +2583,6 @@ purge线程是什么：
 ## 锁的不同角度分类
 
 ![image-20220504203444110](index.assets/image-20220504203444110.png)
-
-
 
 ### 从数据操作的类型划分：读锁、写锁
 
@@ -2582,9 +2604,9 @@ MySQL的表级锁有两种模式：（以MyISAM表进行操作的演示，因为
 * 表独占写锁（Table Write Lock）
 
 | 锁类型 | 自己可读 | 自己可写 | 自己可操作其他表 | 他人可读 | 他人可写 |
-| ------ | -------- | -------- | ---------------- | -------- | -------- |
-| 读锁   | 是       | 否       | 否               | 是       | 否       |
-| 写锁   | 是       | 是       | 否               | 否       | 否       |
+| --- | ---- | ---- | -------- | ---- | ---- |
+| 读锁  | 是    | 否    | 否        | 是    | 否    |
+| 写锁  | 是    | 是    | 否        | 否    | 否    |
 
 ② 意向锁 （intention lock）
 
@@ -2593,18 +2615,18 @@ InnoDB 支持 `多粒度锁（multiple granularity locking）` ，它允许 行�
 意向锁分为两种：
 
 * 意向共享锁（intention shared lock, IS）：事务有意向对表中的某些行加共享锁（S锁）
-
-  ~~~mysql
+  
+  ```mysql
   -- 事务要获取某些行的 S 锁，必须先获得表的 IS 锁。
   SELECT column FROM table ... LOCK IN SHARE MODE;
-  ~~~
+  ```
 
 * 意向排他锁（intention exclusive lock, IX）：事务有意向对表中的某些行加排他锁（X锁）
-
-  ~~~mysql
+  
+  ```mysql
   -- 事务要获取某些行的 X 锁，必须先获得表的 IX 锁。
   SELECT column FROM table ... FOR UPDATE;
-  ~~~
+  ```
 
 即：意向锁是由存储引擎 自己维护的 ，用户无法手动操作意向锁，在为数据行加共享 / 排他锁之前， InooDB 会先获取该数据行 所在数据表的对应意向锁 。
 
@@ -2658,10 +2680,10 @@ MySQL 在 `REPEATABLE READ` 隔离级别下是可以解决幻读问题的，解�
 
 有时候我们既想 锁住某条记录 ，又想 阻止 其他事务在该记录前边的 间隙插入新记录 ，所以InnoDB就提 出了一种称之为 Next-Key Locks 的锁，官方的类型名称为： LOCK_ORDINARY ，我们也可以简称为 next-key锁 。Next-Key Locks是在存储引擎 innodb 、事务级别在 可重复读 的情况下使用的数据库锁， innodb默认的锁就是Next-Key locks。
 
-~~~mysql
+```mysql
 begin;
 select * from student where id <=8 and id > 3 for update;
-~~~
+```
 
 例：间隙锁在（3，8）区间内，3,8都不可取。如果我们想要保证8也进行加锁，那就需要用到临键锁。
 
@@ -2735,15 +2757,15 @@ E. 写数据，并将自己的trx_id写入trx_id字段。
 
 显示加共享锁： 
 
-~~~mysql
+```mysql
 select .... lock in share mode
-~~~
+```
 
 显示加排它锁：
 
-~~~mysql
+```mysql
 select .... for update
-~~~
+```
 
 ### 其它锁之：全局锁、死锁
 
@@ -2787,17 +2809,16 @@ InnoDB 存储引擎中的 锁结构 如下：
 表锁结构 和 行锁结构 在这个位置的内容是不同的：
 
 * 表锁
-
+  
   记载着是对哪个表加的锁，还有其他的一些信息。
 
 * 行锁
-
+  
   记载了三个重要的信息：
-
+  
   * Space ID ：记录所在表空间。
   * Page Number ：记录所在页号。
   * n_bits ：对于行锁来说，一条记录就对应着一个比特位，一个页面中包含很多记录，用不同 的比特位来区分到底是哪一条记录加了锁。为此在行锁结构的末尾放置了一堆比特位，这个 n_bits 属性代表使用了多少比特位。
-
 4. type_mode ：
 
 这是一个32位的数，被分成了 lock_mode 、 lock_type 和 rec_lock_type 三个部分，如图所示：
@@ -2805,29 +2826,29 @@ InnoDB 存储引擎中的 锁结构 如下：
 ![image-20220505111828065](index.assets/image-20220505111828065.png)
 
 * 锁的模式（ lock_mode ），占用低4位，可选的值如下：
-
+  
   * LOCK_IS （十进制的 0 ）：表示共享意向锁，也就是 IS锁 。
   * LOCK_IX （十进制的 1 ）：表示独占意向锁，也就是 IX锁 。
   * LOCK_S （十进制的 2 ）：表示共享锁，也就是 S锁 。
   * LOCK_X （十进制的 3 ）：表示独占锁，也就是 X锁 。
   * LOCK_AUTO_INC （十进制的 4 ）：表示 AUTO-INC锁 。
-
+  
   在InnoDB存储引擎中，LOCK_IS，LOCK_IX，LOCK_AUTO_INC都算是表级锁的模式，LOCK_S和 LOCK_X既可以算是表级锁的模式，也可以是行级锁的模式。
 
 * 锁的类型（ lock_type ），占用第5～8位，不过现阶段只有第5位和第6位被使用：
-
+  
   * LOCK_TABLE （十进制的 16 ），也就是当第5个比特位置为1时，表示表级锁。
   * LOCK_REC （十进制的 32 ），也就是当第6个比特位置为1时，表示行级锁。
 
 * 行锁的具体类型（ rec_lock_type ），使用其余的位来表示。只有在 lock_type 的值为 LOCK_REC 时，也就是只有在该锁为行级锁时，才会被细分为更多的类型：
-
+  
   * LOCK_ORDINARY （十进制的 0 ）：表示 next-key锁 。 
   * LOCK_GAP （十进制的 512 ）：也就是当第10个比特位置为1时，表示 gap锁 。 
   * LOCK_REC_NOT_GAP （十进制的 1024 ）：也就是当第11个比特位置为1时，表示正经 记录 锁 。 
   * LOCK_INSERT_INTENTION （十进制的 2048 ）：也就是当第12个比特位置为1时，表示插入 意向锁。
 
 * is_waiting 属性呢？基于内存空间的节省，所以把 is_waiting 属性放到了 type_mode 这个32 位的数字中：
-
+  
   * LOCK_WAIT （十进制的 256 ） ：当第9个比特位置为 1 时，表示 is_waiting 为 true ，也 就是当前事务尚未获取到锁，处在等待状态；当这个比特位为 0 时，表示 is_waiting 为 false ，也就是当前事务获取锁成功。
 
 # 多版本并发控制
@@ -2844,9 +2865,9 @@ MVCC在MySQL InnoDB中的实现主要是为了提高数据库并发性能，用�
 
 快照读又叫一致性读，读取的是快照数据。不加锁的简单的 SELECT 都属于快照读，即不加锁的非阻塞 读；
 
-~~~mysql
+```mysql
 select * from user where ...;
-~~~
+```
 
 之所以出现快照读的情况，是基于提高并发性能的考虑，快照读的实现是基于MVCC，它在很多情况下， 避免了加锁操作，降低了开销。 既然是基于多版本，那么快照读可能读到的并不一定是数据的最新版本，而有可能是之前的历史版本。 
 
@@ -2856,7 +2877,7 @@ select * from user where ...;
 
 当前读读取的是记录的最新版本（最新数据，而不是历史版本的数据），读取时还要保证其他并发事务 不能修改当前记录，会对读取的记录进行加锁。加锁的 SELECT，或者对数据进行增删改都会进行当前 读。比如：
 
-~~~mysql
+```mysql
 SELECT * FROM student LOCK IN SHARE MODE; # 共享锁
 
 SELECT * FROM student FOR UPDATE; # 排他锁
@@ -2866,7 +2887,7 @@ INSERT INTO student values ... # 排他锁
 DELETE FROM student WHERE ... # 排他锁
 
 UPDATE student SET ... # 排他锁
-~~~
+```
 
 ## 前文复习
 
@@ -2914,7 +2935,7 @@ MVCC 的实现依赖于：**隐藏字段、Undo Log、Read View。**
 这个ReadView中主要包含4个比较重要的内容，分别如下：
 
 1. creator_trx_id ，创建这个 Read View 的事务 ID。
-
+   
    > 说明：只有在对表中的记录做改动时（执行INSERT、DELETE、UPDATE这些语句时）才会为 事务分配事务id，否则在一个只读事务中的事务id值都默认为0。
 
 2. trx_ids ，表示在生成ReadView时当前系统中活跃的读写事务的 事务id列表 。
@@ -2922,7 +2943,7 @@ MVCC 的实现依赖于：**隐藏字段、Undo Log、Read View。**
 3. up_limit_id ，活跃的事务中最小的事务 ID
 
 4. low_limit_id ，表示生成ReadView时系统中应该分配给下一个事务的 id 值。low_limit_id 是系 统最大的事务id值，这里要注意是系统中的事务id，需要区别于正在活跃的事务ID。
-
+   
    > 注意：low_limit_id并不是trx_ids中的最大值，事务id是递增分配的。比如，现在有id为1， 2，3这三个事务，之后id为3的事务提交了。那么一个新的读事务在生成ReadView时， trx_ids就包括1和2，up_limit_id的值就是1，low_limit_id的值就是4。
 
 ### ReadView的规则
@@ -2964,7 +2985,7 @@ READ COMMITTED ：每次读取数据前都生成一个ReadView。
 
 现在有两个 事务id 分别为 10 、 20 的事务在执行：
 
-~~~mysql
+```mysql
 # Transaction 10
 BEGIN;
 UPDATE student SET name="李四" WHERE id=1;
@@ -2973,7 +2994,7 @@ UPDATE student SET name="王五" WHERE id=1;
 BEGIN;
 # 更新了一些别的表的记录
 ...
-~~~
+```
 
 此刻，表student 中 id 为 1 的记录得到的版本链表如下所示：
 
@@ -2981,33 +3002,33 @@ BEGIN;
 
 假设现在有一个使用 READ COMMITTED 隔离级别的事务开始执行：
 
-~~~mysql
+```mysql
 # 使用READ COMMITTED隔离级别的事务
 BEGIN;
 # SELECT1：Transaction 10、20未提交
 SELECT * FROM student WHERE id = 1; # 得到的列name的值为'张三'
-~~~
+```
 
 之后，我们把 事务id 为 10 的事务提交一下：
 
-~~~mysql
+```mysql
 # Transaction 10
 BEGIN;
 UPDATE student SET name="李四" WHERE id=1;
 UPDATE student SET name="王五" WHERE id=1;
 COMMIT;
-~~~
+```
 
 然后再到 事务id 为 20 的事务中更新一下表 student 中 id 为 1 的记录：
 
-~~~mysql
+```mysql
 # Transaction 20
 BEGIN;
 # 更新了一些别的表的记录
 ...
 UPDATE student SET name="钱七" WHERE id=1;
 UPDATE student SET name="宋八" WHERE id=1;
-~~~
+```
 
 此刻，表student中 id 为 1 的记录的版本链就长这样：
 
@@ -3015,14 +3036,14 @@ UPDATE student SET name="宋八" WHERE id=1;
 
 然后再到刚才使用 READ COMMITTED 隔离级别的事务中继续查找这个 id 为 1 的记录，如下：
 
-~~~mysql
+```mysql
 # 使用READ COMMITTED隔离级别的事务
 BEGIN;
 # SELECT1：Transaction 10、20均未提交
 SELECT * FROM student WHERE id = 1; # 得到的列name的值为'张三'
 # SELECT2：Transaction 10提交，Transaction 20未提交
 SELECT * FROM student WHERE id = 1; # 得到的列name的值为'王五'
-~~~
+```
 
 ### REPEATABLE READ隔离级别下
 
@@ -3030,7 +3051,7 @@ SELECT * FROM student WHERE id = 1; # 得到的列name的值为'王五'
 
 比如，系统里有两个 事务id 分别为 10 、 20 的事务在执行：
 
-~~~mysql
+```mysql
 # Transaction 10
 BEGIN;
 UPDATE student SET name="李四" WHERE id=1;
@@ -3039,40 +3060,40 @@ UPDATE student SET name="王五" WHERE id=1;
 BEGIN;
 # 更新了一些别的表的记录
 ...
-~~~
+```
 
 此刻，表student 中 id 为 1 的记录得到的版本链表如下所示：
 ![image-20220505150446921](index.assets/image-20220505150446921.png)
 
 假设现在有一个使用 REPEATABLE READ 隔离级别的事务开始执行：
 
-~~~mysql
+```mysql
 # 使用REPEATABLE READ隔离级别的事务
 BEGIN;
 # SELECT1：Transaction 10、20未提交
 SELECT * FROM student WHERE id = 1; # 得到的列name的值为'张三'
-~~~
+```
 
 之后，我们把 事务id 为 10 的事务提交一下，就像这样：
 
-~~~mysql
+```mysql
 # Transaction 10
 BEGIN;
 UPDATE student SET name="李四" WHERE id=1;
 UPDATE student SET name="王五" WHERE id=1;
 COMMIT;
-~~~
+```
 
 然后再到 事务id 为 20 的事务中更新一下表 student 中 id 为 1 的记录：
 
-~~~mysql
+```mysql
 # Transaction 20
 BEGIN;
 # 更新了一些别的表的记录
 ...
 UPDATE student SET name="钱七" WHERE id=1;
 UPDATE student SET name="宋八" WHERE id=1;
-~~~
+```
 
 此刻，表student 中 id 为 1 的记录的版本链长这样：
 
@@ -3080,14 +3101,14 @@ UPDATE student SET name="宋八" WHERE id=1;
 
 然后再到刚才使用 REPEATABLE READ 隔离级别的事务中继续查找这个 id 为 1 的记录，如下：
 
-~~~mysql
+```mysql
 # 使用REPEATABLE READ隔离级别的事务
 BEGIN;
 # SELECT1：Transaction 10、20均未提交
 SELECT * FROM student WHERE id = 1; # 得到的列name的值为'张三'
 # SELECT2：Transaction 10提交，Transaction 20未提交
 SELECT * FROM student WHERE id = 1; # 得到的列name的值仍为'张三'
-~~~
+```
 
 ### 总结
 
@@ -3121,9 +3142,9 @@ MySQL有不同类型的日志文件，用来存储不同类型的日志，分为
 
 1. 开启slow_query_log
 
-~~~mysql
+```mysql
 mysql > set global slow_query_log='ON';
-~~~
+```
 
 然后我们再来查看下慢查询日志是否开启，以及慢查询日志文件的位置：
 
@@ -3135,22 +3156,22 @@ mysql > set global slow_query_log='ON';
 
 接下来我们来看下慢查询的时间阈值设置，使用如下命令：
 
-~~~mysql
+```mysql
 mysql > show variables like '%long_query_time%';
-~~~
+```
 
 ![image-20220505151741624](index.assets/image-20220505151741624.png)
 
 这里如果我们想把时间缩短，比如设置为 1 秒，可以这样设置：
 
-~~~mysql
+```mysql
 #测试发现：设置global的方式对当前session的long_query_time失效。对新连接的客户端有效。所以可以一并
 执行下述语句
 mysql > set global long_query_time = 1;
 mysql> show global variables like '%long_query_time%';
 mysql> set long_query_time=1;
 mysql> show variables like '%long_query_time%';
-~~~
+```
 
 ![image-20220505151802727](index.assets/image-20220505151802727.png)
 
@@ -3158,9 +3179,9 @@ mysql> show variables like '%long_query_time%';
 
 查询当前系统中有多少条慢查询记录
 
-~~~mysql
+```mysql
 SHOW GLOBAL STATUS LIKE '%Slow_queries%';
-~~~
+```
 
 ### 慢查询日志分析工具：mysqldumpslow
 
@@ -3187,7 +3208,7 @@ mysqldumpslow 命令的具体参数如下：
 
 **工作常用参考：**
 
-~~~mysql
+```mysql
 #得到返回记录集最多的10个SQL
 mysqldumpslow -s r -t 10 /var/lib/mysql/atguigu-slow.log
 #得到访问次数最多的10个SQL
@@ -3196,26 +3217,26 @@ mysqldumpslow -s c -t 10 /var/lib/mysql/atguigu-slow.log
 mysqldumpslow -s t -t 10 -g "left join" /var/lib/mysql/atguigu-slow.log
 #另外建议在使用这些命令时结合 | 和more 使用 ，否则有可能出现爆屏情况
 mysqldumpslow -s r -t 10 /var/lib/mysql/atguigu-slow.log | more
-~~~
+```
 
 ### 关闭慢查询日志
 
 方式1：永久性方式
 
-~~~properties
+```properties
 [mysqld]
 slow_query_log=OFF
 #或者，把slow_query_log一项注释掉 或 删除
 [mysqld]
 #slow_query_log =OFF
-~~~
+```
 
 重启MySQL服务，执行如下语句查询慢日志功能
 
-~~~mysql
+```mysql
 SHOW VARIABLES LIKE '%slow%'; #查询慢查询日志所在目录
 SHOW VARIABLES LIKE '%long_query_time%'; #查询超时时长
-~~~
+```
 
 方式2：临时性方式
 
@@ -3223,17 +3244,17 @@ SHOW VARIABLES LIKE '%long_query_time%'; #查询超时时长
 
 （1）停止MySQL慢查询日志功能，具体SQL语句如下。
 
-~~~mysql
+```mysql
 SET GLOBAL slow_query_log=off
-~~~
+```
 
 （2）重启MySQL服务，使用SHOW语句查询慢查询日志功能信息，具体SQL语句如下
 
-~~~mysql
+```mysql
 SHOW VARIABLES LIKE '%slow%';
 #以及
 SHOW VARIABLES LIKE '%long_query_time%';
-~~~
+```
 
 ## 通用查询日志(general query log)
 
@@ -3241,16 +3262,16 @@ SHOW VARIABLES LIKE '%long_query_time%';
 
 ### 查看当前状态
 
-~~~shell
+```shell
 mysql> SHOW VARIABLES LIKE '%general%';
 +------------------+------------------------------+
 | Variable_name | Value |
 +------------------+------------------------------+
-| general_log | OFF 							| #通用查询日志处于关闭状态
+| general_log | OFF                             | #通用查询日志处于关闭状态
 | general_log_file | /var/lib/mysql/atguigu01.log | #通用查询日志文件的名称是atguigu01.log
 +------------------+------------------------------+
 2 rows in set (0.03 sec)
-~~~
+```
 
 ### 启动日志
 
@@ -3258,39 +3279,37 @@ mysql> SHOW VARIABLES LIKE '%general%';
 
 修改my.cnf或者my.ini配置文件来设置。在[mysqld]组下加入log选项，并重启MySQL服务。格式如下：
 
-~~~properties
+```properties
 [mysqld]
 general_log=ON
 general_log_file=[path[filename]] #日志文件所在目录路径，filename为日志文件名
-~~~
+```
 
 如果不指定目录和文件名，通用查询日志将默认存储在MySQL数据目录中的hostname.log文件中， hostname表示主机名。
 
 方式2：临时性方式
 
-~~~mysql
+```mysql
 SET GLOBAL general_log=on; # 开启通用查询日志
 SET GLOBAL general_log_file=’path/filename’; # 设置日志文件保存位置
-~~~
+```
 
 对应的，关闭操作SQL命令如下：
 
-~~~mysql
+```mysql
 SET GLOBAL general_log=off; # 关闭通用查询日志
 SHOW VARIABLES LIKE 'general_log%'; # 查看设置后的状态
-~~~
+```
 
 ### 查看日志
 
 通用查询日志是以 文本文件 的形式存储在文件系统中的，可以使用 文本编辑器 直接打开日志文件。每台 MySQL服务器的通用查询日志内容是不同的。
 
-~~~mysql
+```mysql
 SHOW VARIABLES LIKE 'general_log%';
-~~~
+```
 
 ![image-20220505153055022](index.assets/image-20220505153055022.png)
-
-
 
 ### 删除\刷新日志
 
@@ -3298,9 +3317,9 @@ SHOW VARIABLES LIKE 'general_log%';
 
 使用如下命令重新生成查询日志文件，具体命令如下。刷新MySQL数据目录，发现创建了新的日志文 件。前提一定要开启通用日志。
 
-~~~mysql
+```mysql
 mysqladmin -uroot -p flush-logs
-~~~
+```
 
 ## 错误日志(error log)
 
@@ -3308,10 +3327,10 @@ mysqladmin -uroot -p flush-logs
 
 在MySQL数据库中，错误日志功能是 默认开启 的。而且，错误日志 无法被禁止 。 默认情况下，错误日志存储在MySQL数据库的数据文件夹下，名称默认为 mysqld.log （Linux系统）或 hostname.err （mac系统）。如果需要制定文件名，则需要在my.cnf或者my.ini中做如下配置：
 
-~~~properties
+```properties
 [mysqld]
 log-error=[path/[filename]] #path为日志文件所在的目录路径，filename为日志文件名
-~~~
+```
 
 ### 查看日志
 
@@ -3323,12 +3342,12 @@ MySQL错误日志是以文本文件形式存储的，可以使用文本编辑器
 
 对于很久以前的错误日志，数据库管理员查看这些错误日志的可能性不大，可以将这些错误日志删除， 以保证MySQL服务器上的 硬盘空间 。MySQL的错误日志是以文本文件的形式存储在文件系统中的，可以 直接删除 。
 
-~~~sh
+```sh
 [root@atguigu01 log]# mysqladmin -uroot -p flush-logs
 Enter password:
 mysqladmin: refresh failed; error: 'Could not open file '/var/log/mysqld.log' for
 error logging.'
-~~~
+```
 
 ## 二进制日志(bin log)
 
@@ -3345,7 +3364,7 @@ binlog主要应用场景：
 
 查看记录二进制日志是否开启：在MySQL8中默认情况下，二进制文件是开启的。
 
-~~~mysql
+```mysql
 mysql> show variables like '%log_bin%';
 +---------------------------------+----------------------------------+
 | Variable_name | Value |
@@ -3358,49 +3377,49 @@ mysql> show variables like '%log_bin%';
 | sql_log_bin | ON |
 +---------------------------------+----------------------------------+
 6 rows in set (0.00 sec)
-~~~
+```
 
 ### 日志参数设置
 
 方式1：永久性方式
 
-~~~properties
+```properties
 [mysqld]
 #启用二进制日志
 log-bin=atguigu-bin
 binlog_expire_logs_seconds=600
 max_binlog_size=100M
-~~~
+```
 
 重新启动MySQL服务，查询二进制日志的信息，执行结果：
 
-~~~mysql
+```mysql
 mysql> show variables like '%log_bin%';
 +---------------------------------+----------------------------------+
-| Variable_name 					| Value |
+| Variable_name                     | Value |
 +---------------------------------+----------------------------------+
-| log_bin 							| ON |
-| log_bin_basename 					| /var/lib/mysql/atguigu-bin |
-| log_bin_index 					| /var/lib/mysql/atguigu-bin.index |
-| log_bin_trust_function_creators 	| OFF |
-| log_bin_use_v1_row_events 		| OFF |
-| sql_log_bin 						| ON |
+| log_bin                             | ON |
+| log_bin_basename                     | /var/lib/mysql/atguigu-bin |
+| log_bin_index                     | /var/lib/mysql/atguigu-bin.index |
+| log_bin_trust_function_creators     | OFF |
+| log_bin_use_v1_row_events         | OFF |
+| sql_log_bin                         | ON |
 +---------------------------------+----------------------------------+
 6 rows in set (0.00 sec)
-~~~
+```
 
 如果想改变日志文件的目录和名称，可以对my.cnf或my.ini中的log_bin参数修改如下：
 
-~~~properties
+```properties
 [mysqld]
 log-bin="/var/lib/mysql/binlog/atguigu-bin"
 # 注意：新建的文件夹需要使用mysql用户，使用下面的命令即可。
 chown -R -v mysql:mysql binlog
-~~~
+```
 
 方式2：临时性方式
 
-~~~mysql
+```mysql
 # global 级别
 mysql> set global sql_log_bin=0;
 ERROR 1228 (HY000): Variable 'sql_log_bin' is a SESSION variable and can`t be used
@@ -3408,13 +3427,13 @@ with SET GLOBAL
 # session级别
 mysql> SET sql_log_bin=0;
 Query OK, 0 rows affected (0.01 秒)
-~~~
+```
 
 ### 查看日志
 
 查看当前的二进制日志文件列表及大小。指令如下：
 
-~~~mysql
+```mysql
 mysql> SHOW BINARY LOGS;
 +--------------------+-----------+-----------+
 | Log_name | File_size | Encrypted |
@@ -3422,11 +3441,11 @@ mysql> SHOW BINARY LOGS;
 | atguigu-bin.000001 | 156 | No |
 +--------------------+-----------+-----------+
 1 行于数据集 (0.02 秒)
-~~~
+```
 
 binlog格式查看
 
-~~~mysql
+```mysql
 mysql> show variables like 'binlog_format';
 +---------------+-------+
 | Variable_name | Value |
@@ -3434,7 +3453,7 @@ mysql> show variables like 'binlog_format';
 | binlog_format | ROW |
 +---------------+-------+
 1 行于数据集 (0.02 秒)
-~~~
+```
 
 除此之外，binlog还有2种格式，分别是Statement和Mixed
 
@@ -3454,9 +3473,9 @@ mysql> show variables like 'binlog_format';
 
 mysqlbinlog恢复数据的语法如下：
 
-~~~mysql
+```mysql
 mysqlbinlog [option] filename|mysql –uuser -ppass;
-~~~
+```
 
 这个命令可以这样理解：使用mysqlbinlog命令来读取filename中的内容，然后使用mysql命令将这些内容 恢复到数据库中。
 
@@ -3473,10 +3492,10 @@ MySQL的二进制文件可以配置自动删除，同时MySQL也提供了安全�
 
 PURGE MASTER LOGS：删除指定日志文件
 
-~~~mysql
+```mysql
 PURGE {MASTER | BINARY} LOGS TO ‘指定日志文件名’
 PURGE {MASTER | BINARY} LOGS BEFORE ‘指定日期’
-~~~
+```
 
 ## 再谈二进制日志(binlog)
 
@@ -3649,68 +3668,68 @@ MGR 将 MySQL 带入了数据强一致性的时代，是一个划时代的创新
 
 **备份一个数据库**
 
-~~~shell
+```shell
 mysqldump –u 用户名称 –h 主机名称 –p密码 待备份的数据库名称[tbname, [tbname...]]> 备份文件名
 称.sql
-~~~
+```
 
 > 说明： 备份的文件并非一定要求后缀名为.sql，例如后缀名为.txt的文件也是可以的。
 
 举例：使用root用户备份atguigu数据库：
 
-~~~mysql
+```mysql
 mysqldump -uroot -p atguigu>atguigu.sql #备份文件存储在当前目录下
 mysqldump -uroot -p atguigudb1 > /var/lib/mysql/atguigu.sql
-~~~
+```
 
 **备份全部数据库**
 
 若想用mysqldump备份整个实例，可以使用 --all-databases 或 -A 参数：
 
-~~~mysql
+```mysql
 mysqldump -uroot -pxxxxxx --all-databases > all_database.sql
 mysqldump -uroot -pxxxxxx -A > all_database.sql
-~~~
+```
 
 **备份部分数据库**
 
 使用 --databases 或 -B 参数了，该参数后面跟数据库名称，多个数据库间用空格隔开。如果指定 databases参数，备份文件中会存在创建数据库的语句，如果不指定参数，则不存在。语法如下：
 
-~~~mysql
+```mysql
 mysqldump –u user –h host –p --databases [数据库的名称1 [数据库的名称2...]] > 备份文件名
 称.sql
-~~~
+```
 
 举例：
 
-~~~mysql
+```mysql
 mysqldump -uroot -p --databases atguigu atguigu12 >two_database.sql
 #或者
 mysqldump -uroot -p -B atguigu atguigu12 > two_database.sql
-~~~
+```
 
  **备份部分表**
 
 比如，在表变更前做个备份。语法如下：
 
-~~~mysql
+```mysql
 mysqldump –u user –h host –p 数据库的名称 [表名1 [表名2...]] > 备份文件名称.sql
-~~~
+```
 
 举例：备份atguigu数据库下的book表
 
-~~~mysql
+```mysql
 mysqldump -uroot -p atguigu book> book.sql
-~~~
+```
 
 可以看到，book文件和备份的库文件类似。不同的是，book文件只包含book表的DROP、CREATE和 INSERT语句。
 
 备份多张表使用下面的命令，比如备份book和account表：
 
-~~~mysql
+```mysql
 #备份多张表
 mysqldump -uroot -p atguigu book account > 2_tables_bak.sql
-~~~
+```
 
 **备份单表的部分数据**
 
@@ -3718,9 +3737,9 @@ mysqldump -uroot -p atguigu book account > 2_tables_bak.sql
 
 举例：备份student表中id小于10的数据：
 
-~~~mysql
+```mysql
 mysqldump -uroot -p atguigu student --where="id < 10 " > student_part_id10_low_bak.sql
-~~~
+```
 
 **只备份结构或只备份数据**
 
@@ -3728,19 +3747,19 @@ mysqldump -uroot -p atguigu student --where="id < 10 " > student_part_id10_low_b
 
 * 只备份结构
 
-~~~mysql
+```mysql
 mysqldump -uroot -p atguigu --no-data > atguigu_no_data_bak.sql
 #使用grep命令，没有找到insert相关语句，表示没有数据备份。
 [root@node1 ~]# grep "INSERT" atguigu_no_data_bak.sql
-~~~
+```
 
 * 只备份数据
 
-~~~mysql
+```mysql
 mysqldump -uroot -p atguigu --no-create-info > atguigu_no_create_info_bak.sql
 #使用grep命令，没有找到create相关语句，表示没有数据结构。
 [root@node1 ~]# grep "CREATE" atguigu_no_create_info_bak.sql
-~~~
+```
 
 **备份中包含存储过程、函数、事件**
 
@@ -3750,46 +3769,46 @@ mysqldump备份默认是不包含存储过程，自定义函数及事件的。�
 
 * 使用下面的SQL可以查看当前库有哪些存储过程或者函数
 
-~~~mysql
+```mysql
 mysql> SELECT SPECIFIC_NAME,ROUTINE_TYPE ,ROUTINE_SCHEMA FROM information_schema.Routines WHERE ROUTINE_SCHEMA="atguigudb1";
-~~~
+```
 
 ![image-20220505163351861](index.assets/image-20220505163351861.png)
 
-~~~mysql
+```mysql
 mysqldump -uroot -p -R -E --databases atguigu > fun_atguigu_bak.sql
-~~~
+```
 
 ## mysql命令恢复数据
 
 基本语法：
 
-~~~mysql
+```mysql
 mysql –u root –p [dbname] < backup.sql
-~~~
+```
 
 **单库备份中恢复单库**
 
 使用root用户，将之前练习中备份的atguigu.sql文件中的备份导入数据库中，命令如下： 如果备份文件中包含了创建数据库的语句，则恢复的时候不需要指定数据库名称，如下所示
 
-~~~mysql
+```mysql
 mysql -uroot -p < atguigu.sql
-~~~
+```
 
 否则需要指定数据库名称，如下所示
 
-~~~mysql
+```mysql
 mysql -uroot -p atguigu4< atguigu.sql
-~~~
+```
 
 **全量备份恢复**
 
 如果我们现在有昨天的全量备份，现在想整个恢复，则可以这样操作：
 
-~~~mysql
+```mysql
 mysql –u root –p < all.sql
 mysql -uroot -pxxxxxx < all.sql
-~~~
+```
 
 **从全量备份中恢复单库**
 
@@ -3797,13 +3816,13 @@ mysql -uroot -pxxxxxx < all.sql
 
 举例：
 
-~~~mysql
+```mysql
 sed -n '/^-- Current Database: `atguigu`/,/^-- Current Database: `/p' all_database.sql
 > atguigu.sql
 #分离完成后我们再导入atguigu.sql即可恢复单个库
-~~~
+```
 
-##  表的导出与导入
+## 表的导出与导入
 
 ### 表的导出
 
@@ -3813,7 +3832,7 @@ sed -n '/^-- Current Database: `atguigu`/,/^-- Current Database: `/p' all_databa
 
 （1）选择数 据库atguigu，并查询account表，执行结果如下所示。
 
-~~~mysql
+```mysql
 use atguigu;
 select * from account;
 mysql> select * from account;
@@ -3825,13 +3844,13 @@ mysql> select * from account;
 | 3 | 王五 | 0 |
 +----+--------+---------+
 3 rows in set (0.01 sec)
-~~~
+```
 
 （2）mysql默认对导出的目录有权限限制，也就是说使用命令行进行导出的时候，需要指定目录进行操 作。
 
  查询secure_file_priv值：
 
-~~~mysql
+```mysql
 mysql> SHOW GLOBAL VARIABLES LIKE '%secure%';
 +--------------------------+-----------------------+
 | Variable_name | Value |
@@ -3840,21 +3859,21 @@ mysql> SHOW GLOBAL VARIABLES LIKE '%secure%';
 | secure_file_priv | /var/lib/mysql-files/ |
 +--------------------------+-----------------------+
 2 rows in set (0.02 sec)
-~~~
+```
 
 （3）上面结果中显示，secure_file_priv变量的值为/var/lib/mysql-files/，导出目录设置为该目录，SQL语 句如下。
 
-~~~mysql
+```mysql
 SELECT * FROM account INTO OUTFILE "/var/lib/mysql-files/account.txt";
-~~~
+```
 
 （4）查看 /var/lib/mysql-files/account.txt`文件。
 
-~~~
+```
 1 张三 90
 2 李四 100
 3 王五 0
-~~~
+```
 
 ### 表的导入
 
@@ -3864,25 +3883,25 @@ SELECT * FROM account INTO OUTFILE "/var/lib/mysql-files/account.txt";
 
 使用SELECT...INTO OUTFILE将atguigu数据库中account表的记录导出到文本文件
 
-~~~mysql
+```mysql
 SELECT * FROM atguigu.account INTO OUTFILE '/var/lib/mysql-files/account_0.txt';
-~~~
+```
 
 删除account表中的数据：
 
-~~~mysql
+```mysql
 DELETE FROM atguigu.account;
-~~~
+```
 
 从文本文件account.txt中恢复数据：
 
-~~~mysql
+```mysql
 LOAD DATA INFILE '/var/lib/mysql-files/account_0.txt' INTO TABLE atguigu.account;
-~~~
+```
 
 查询account表中的数据：
 
-~~~mysql
+```mysql
 mysql> select * from account;
 +----+--------+---------+
 | id | name | balance |
@@ -3892,17 +3911,17 @@ mysql> select * from account;
 | 3 | 王五 | 0 |
 +----+--------+---------+
 3 rows in set (0.00 sec)
-~~~
+```
 
 # MySQL常用命令
 
-##  mysql
+## mysql
 
 该mysql不是指mysql服务，而是指mysql的客户端工具。
 
 **连接选项**
 
-~~~mysql
+```mysql
 #参数 ：
 -u, --user=name 指定用户名
 -p, --password[=name] 指定密码
@@ -3911,20 +3930,20 @@ mysql> select * from account;
 #示例 ：
 mysql -h 127.0.0.1 -P 3306 -u root -p
 mysql -h127.0.0.1 -P3306 -uroot -p密码
-~~~
+```
 
 **执行选项**
 
-~~~mysql
+```mysql
 -e, --execute=name 执行SQL语句并退出
-~~~
+```
 
 此选项可以在Mysql客户端执行SQL语句，而不用连接到MySQL数据库再执行，对于一些批处理脚本，这 种方式尤其方便。
 
-~~~mysql
+```mysql
 #示例：
 mysql -uroot -p db01 -e "select * from tb_book";
-~~~
+```
 
 ## mysqladmin
 
@@ -3932,12 +3951,12 @@ mysqladmin 是一个执行管理操作的客户端程序。可以用它来检查
 
 可以通过 ： mysqladmin --help 指令查看帮助文档
 
-~~~mysql
+```mysql
 #示例 ：
 mysqladmin -uroot -p create 'test01';
 mysqladmin -uroot -p drop 'test01';
 mysqladmin -uroot -p version;
-~~~
+```
 
 ## mysqlbinlog
 
@@ -3945,7 +3964,7 @@ mysqladmin -uroot -p version;
 
 语法 ：
 
-~~~mysql
+```mysql
 mysqlbinlog [options] log-files1 log-files2 ...
 #选项：
 -d, --database=name : 指定数据库名称，只列出指定的数据库相关操作。
@@ -3953,8 +3972,8 @@ mysqlbinlog [options] log-files1 log-files2 ...
 -r,--result-file=name : 将输出的文本格式日志输出到指定文件。
 -s, --short-form : 显示简单格式， 省略掉一些信息。
 --start-datatime=date1 --stop-datetime=date2 : 指定日期间隔内的所有日志。
---start-position=pos1 --stop-position=pos2 : 指定位置间隔内的所有日志。	
-~~~
+--start-position=pos1 --stop-position=pos2 : 指定位置间隔内的所有日志。    
+```
 
 ## mysqldump
 
@@ -3962,26 +3981,25 @@ mysqldump 客户端工具用来备份数据库或在不同数据库之间进行�
 
 语法 ：
 
-~~~mysql
+```mysql
 mysqldump [options] db_name [tables]
 mysqldump [options] --database/-B db1 [db2 db3...]
 mysqldump [options] --all-databases/-A
-~~~
+```
 
 **连接选项**
 
-~~~mysql
+```mysql
 #参数 ：
 -u, --user=name 指定用户名
 -p, --password[=name] 指定密码
 -h, --host=name 指定服务器IP或域名
 -P, --port=# 指定连接端口
-
-~~~
+```
 
 **输出内容选项**
 
-~~~mysql
+```mysql
 #参数：
 --add-drop-database 在每个数据库创建语句前加上 Drop database 语句
 --add-drop-table 在每个表创建语句前加上 Drop table 语句 , 默认开启 ; 不开启 (--
@@ -3994,7 +4012,7 @@ skip-add-drop-table)
 #示例 ：
 mysqldump -uroot -p db01 tb_book --add-drop-database --add-drop-table > a
 mysqldump -uroot -p -T /tmp test city
-~~~
+```
 
 ## mysqlimport/source
 
@@ -4002,17 +4020,17 @@ mysqlimport 是客户端数据导入工具，用来导入mysqldump 加 -T 参数
 
 语法：
 
-~~~mysql
+```mysql
 mysqlimport [options] db_name textfile1 [textfile2...]
-~~~
+```
 
 实例：
 
-~~~mysql
+```mysql
 mysqlimport -uroot -p test /tmp/city.txt
 # 如果需要导入sql文件,可以使用mysql中的source 指令 
 source /root/tb_book.sql
-~~~
+```
 
 ## mysqlshow
 
@@ -4020,16 +4038,16 @@ mysqlshow 客户端对象查找工具，用来很快地查找存在哪些数据�
 
 语法：
 
-~~~mysql
+```mysql
 mysqlshow [options] [db_name [table_name [col_name]]]
 #参数
 --count 显示数据库及表的统计信息（数据库，表 均可以不指定）
 -i 显示指定数据库或者指定表的状态信息
-~~~
+```
 
 示例：
 
-~~~mysql
+```mysql
 #查询每个数据库的表的数量及表中记录的数量
 mysqlshow -uroot -p --count
 [root@node1 atguigu2]# mysqlshow -uroot -p --count
@@ -4099,4 +4117,4 @@ select,insert,update,references | |
 select,insert,update,references | |
 +--------+--------------+-----------+------+-----+---------+----------------+---------
 ------------------------+---------
-~~~
+```
