@@ -7,7 +7,8 @@ theme: virgo
 
 hasCJKLanguage: true
 summaryLength: 80
-paginate: 12
+pagination:
+  pagerSize: 10
 enableGitInfo: true
 
 params:
